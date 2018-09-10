@@ -1,0 +1,48 @@
+.reveal .oop-class-container,
+.reveal .oop-object-container {
+    margin: 5px;
+    padding: 5px;
+}
+
+.reveal .oop-class-container h3,
+.reveal .oop-object-container h3 {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.reveal .oop-class-container ul,
+.reveal .oop-object-container ul {
+    display: block;
+    font-size: 0.8em;
+    list-style-type: none;
+    margin: 0;
+    border-top: black 1px solid;
+}
+
+.reveal .oop-class-container {
+    border: red 2px solid;
+}
+
+.reveal .oop-object-container {
+    border: blue 2px dashed;
+}
+
+.oop-object {
+    color: blue;
+}
+
+.oop-class {
+    color: red;
+}
+
+.oop-instance {
+    color: orange;
+}
+
+.oop-property {
+    color: green;
+}
+
+.oop-method {
+    color: purple;
+}

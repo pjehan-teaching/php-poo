@@ -1,0 +1,835 @@
+<section data-background="#002b36" class="first">
+    <h1>POO</h1>
+
+    <p>Programmation Orientée Objet</p>
+</section>
+
+<section data-background="#002b36" class="chapter">
+    <h2>Introduction</h2>
+</section>
+
+<section>
+    <h2>Objectifs</h2>
+    <div class="container">
+        <div class="col">
+            <ul>
+                <li class="fragment fade-in">Améliorer l'organisation</li>
+                <li class="fragment fade-in">Plus proche du monde réel</li>
+                <li class="fragment fade-in">Code réutilisable</li>
+                <li class="fragment fade-in">Documentation aisée</li>
+                <li class="fragment fade-in">Eviter la programmation spaghetti</li>
+            </ul>
+        </div>
+        <div class="col">
+            <img class="fragment fade-in" src="assets/images/spaghetti.gif" alt="programmation spaghetti">
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Versions</h2>
+    <table style="font-size: 0.7em;">
+        <thead>
+            <tr>
+                <th>Version</th>
+                <th>Année</th>
+                <th>Nouveautés</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1.0</td>
+                <td>1995</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>3.0</td>
+                <td>1998</td>
+                <td>Orienté Objets</td>
+            </tr>
+            <tr>
+                <td>5.3</td>
+                <td>2009</td>
+                <td>Namespace, closures</td>
+            </tr>
+            <tr>
+                <td>5.4</td>
+                <td>2012</td>
+                <td>Trait, syntaxe simplifiée pour les tableaux, Serveur Web intégré</td>
+            </tr>
+            <tr>
+                <td>5.5</td>
+                <td>2013</td>
+                <td>Generators, finally, OpCache</td>
+            </tr>
+            <tr>
+                <td>5.6</td>
+                <td>2014</td>
+                <td>Expressions de constante, Opérateur de décomposition "..."</td>
+            </tr>
+            <tr>
+                <td>7.0</td>
+                <td>2015</td>
+                <td>Meilleurs performances, typage des fonctions,(paramètres et retour), opérateur null "??"</td>
+            </tr>
+            <tr>
+                <td>7.1</td>
+                <td>2016</td>
+                <td>Type de retour vide "void", typage nullable, visibilité des constantes</td>
+            </tr>
+            <tr>
+                <td>7.2</td>
+                <td>2017</td>
+                <td>???</td>
+            </tr>
+        </tbody>
+    </table>
+    <footer>
+        <a href="https://en.wikipedia.org/wiki/PHP#Release_history" class="info" target="_blank">Versions</a>
+    </footer>
+</section>
+
+<section>
+    <h2>Un exemple</h2>
+    <div class="container">
+        <div class="col">
+            <h3>Avant</h3>
+<pre><code class="language-php">$product['title'] = checkData($_POST['title']);
+if(is_numeric($_POST['price'])) {
+$product['price'] = checkData($_POST['price']);
+}
+insertProduct($product);
+</code></pre>
+        </div>
+        <div class="col">
+            <h3>Après</h3>
+<pre><code class="language-php">$product = new Product($request->get('title'));
+$product->setPrice($request->get('price'));
+$this->getDb()->save($product);
+</code></pre>
+        </div>
+    </div>
+    <ul>
+        <li>Abstraction de la vérification des données</li>
+        <li>Cloisonnement des fonctions / méthodes</li>
+        <li>Auto-complétion par l'IDE</li>
+    </ul>
+</section>
+
+<section>
+    <h2>C'est quoi un objet ?</h2>
+    <p>
+        Un <strong class="oop-object">objet</strong> est une <strong class="oop-instance">instance</strong> d'une <strong class="oop-class">classe</strong>.
+    </p>
+    <p>Exemple :</p>
+    <p>
+        <strong class="oop-object">$pierre</strong> est une <strong class="oop-instance">instance</strong> de la classe <strong class="oop-class">Personne</strong>
+    </p>
+</section>
+
+<section>
+    <h2>C'est quoi une classe ?</h2>
+    <p>
+        Une <strong class="oop-class">classe</strong> est la description / représentation d'un <strong class="oop-object">objet</strong>.
+    </p>
+    <p>
+        Une classe peut contenir des <strong class="oop-property">propriétés</strong> et des <strong class="oop-method">méthodes</strong>
+    </p>
+</section>
+
+<section>
+    <h2>C'est quoi des propriétés et des méthodes ?</h2>
+    <p>
+        Les <strong class="oop-property">propriétés</strong> représentent les caractéristiques d'une classe tandis que les <strong class="oop-method">méthodes</strong> représentent des comportements.
+    </p>
+</section>
+
+<section>
+    <h2>On résume</h2>
+    <ol>
+        <li>On créé une <strong class="oop-class">classe</strong> en lui définissant ses <strong class="oop-property">propriétés</strong> et ses <strong class="oop-method">méthodes</strong></li>
+        <li>On <strong class="oop-instance">instancie</strong> une <strong class="oop-class">classe</strong> pour créer un <strong class="oop-object">objet</strong></li>
+    </ol>
+</section>
+
+<section>
+    <h2>Un exemple</h2>
+    <div class="container">
+        <div class="col">
+            <div class="oop-class-container">
+                <h3><span class="oop-class">Person</span></h3>
+                <ul>
+                    <li><span class="oop-property">$firstname</span></li>
+                    <li><span class="oop-property">$lastname</span></li>
+                    <li><span class="oop-property">$birthdate</span></li>
+                </ul>
+                <ul>
+                    <li><span class="oop-method">getFullname()</span></li>
+                    <li><span class="oop-method">getAge()</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <div class="oop-object-container fragment fade-right">
+                <h3><span class="oop-object">$pierre</span></h3>
+                <ul>
+                    <li><span class="oop-property">$firstname</span> = "Pierre"</li>
+                    <li><span class="oop-property">$lastname</span> = "Jehan"</li>
+                    <li><span class="oop-property">$birthdate</span> = NULL</li>
+                </ul>
+                <ul>
+                    <li><span class="oop-method">getFullname()</span></li>
+                    <li><span class="oop-method">getAge()</span></li>
+                </ul>
+            </div>
+
+            <div class="oop-object-container fragment fade-right">
+                <h3><span class="oop-object">$john</span></h3>
+                <ul>
+                    <li><span class="oop-property">$firstname</span> = "John"</li>
+                    <li><span class="oop-property">$lastname</span> = "Doe"</li>
+                    <li><span class="oop-property">$birthdate</span> = "12-06-1985"</li>
+                </ul>
+                <ul>
+                    <li><span class="oop-method">getFullname()</span></li>
+                    <li><span class="oop-method">getAge()</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Et concrètement ?</h2>
+<pre><code class="language-php">class Person {
+public $firstname;
+public $lastname;
+public $birthdate;
+function getFullname(): string {
+    return $this->firstname . " " . $this->lastname;
+}
+function getAge(): int {
+    ...
+}
+}
+
+$pierre = new Person();
+$pierre->firstname = "Pierre";
+$pierre->lastname = "Jehan";
+
+echo $pierre->getFullname();
+</code></pre>
+</section>
+
+<section>
+    <h2>L'instanciation</h2>
+    <p>
+        Dans le code précédent, nous avons utilisé le mot clé <code class="hljs-keyword">new</code> pour instancier un nouvel objet de la <strong class="oop-class">classe</strong> Person.
+    </p>
+</section>
+
+<section>
+    <h2>$this</h2>
+    <p>
+        Dans le code de la <strong class="oop-class">classe</strong> Person, nous avons utilisé la variable <code class="hljs-keyword">$this</code> dans la <strong class="oop-method">méthode</strong> <code>getFullname()</code>.
+        Cette variable représente l'instance de l'objet en cours.
+    </p>
+</section>
+
+<section>
+    <h2>self</h2>
+    <p>
+        Si <code class="hljs-keyword">$this</code> permet d'accèder à l'instance de l'objet en cours, le mot clé <code class="hljs-keyword">self</code> permet lui d'accèder à la classe.
+    </p>
+</section>
+
+<section>
+    <h2>La visibilité</h2>
+    <p>
+        Dans le code précédent, nous avons utilisé le mot clé <code>public</code> lors de la définition des propriétés de la <span class="oop-class">classe</span> <code>Person</code>.
+        Ce mot clé permet de définir la <strong>visibilité</strong> d'une <strong class="oop-property">propriété</strong> ou d'une <strong class="oop-method">méthode</strong>.
+        Il existe 3 types de visibilité :
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Visibilité</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>public</td>
+                <td>Accessible de partout</td>
+            </tr>
+            <tr>
+                <td>private</td>
+                <td>Accessible uniquement à l'intérieur de la <strong class="oop-class">classe</strong></td>
+            </tr>
+            <tr>
+                <td>protected</td>
+                <td>Accessible uniquement à l'intérieur de la <strong class="oop-class">classe</strong> et dans les classes <strong>enfants</strong> (par héritage)</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>Encapsulation</h2>
+    <p>
+        Afin de respecter le principe d'<strong>encapsulation</strong> en Programmation Orientée Objet, nous allons toujours déclarer les propriétés d'une classe en <code>private</code>.
+    </p>
+</section>
+
+<section>
+    <h2>Getter / Setter</h2>
+    <p>
+        Ensuite, pour rendre ces propriétés accessibles, l'utilisateur devra manipuler des <strong>getter</strong> et <strong>setter</strong>.
+
+    </p>
+<pre><code class="language-php">class Person {
+
+private $firstname;
+private $lastname;
+private $birthdate;
+
+function getFirstname(): string {
+  return $this->firstname;
+}
+
+function setFirstname(string $firstname) {
+  $this->firstname = ucfirst($firstname);
+}
+
+}
+</code></pre>
+</section>
+
+<section>
+    <h2>Constante</h2>
+    <p>
+        Il est possible de définir des constantes sur une classe.
+        Les constantes sont des propriétés qui ne pourront <strong>pas être modifiées</strong>.
+        Elles sont souvent utilisées pour définir une liste de paramètres.
+    </p>
+<pre><code class="language-php">class Person {
+
+private $hairColor;
+
+const HAIR_BLACK = "#382e2c";
+const HAIR_BROWN = "#58332a";
+const HAIR_BLOND = "#a36e38";
+
+function setHairColor(string $hairColor) {
+  $this->hairColor = $hairColor;
+}
+
+}
+
+$person = new Person();
+$person->setHairColor(Person::HAIR_BLOND);
+</code></pre>
+</section>
+
+<section>
+    <h2>Propriétés et méthodes statiques</h2>
+    <p>
+        Les propriétés et méthodes statiques sont définie <strong>au niveau de la classe</strong>.
+        Si vous modifiez la valeur d'une propriété statique dans un objet, l'ensemble des instances de la classe seront modifiées.
+    </p>
+<pre><code class="language-php">class Person {
+private static $height; // Taille en cm
+public function setHeight(int $height) {
+    self::$height = $height;
+}
+public static function getFormattedHeight(): string {
+    return floor(self::$height / 100) . "m" . self::$height % 100;
+}
+}
+
+$pierre = new Person();
+$pierre->setHeight(180);
+$john = new Person();
+$john->setHeight(185);
+echo $pierre->getFormattedHeight(); // Afficher 1m85
+echo Person::getFormattedHeight(); // Afficher 1m85
+</code></pre>
+    <footer>
+        <a href="#" class="warning">Evitez d'utiliser les méthodes statiques</a>
+    </footer>
+</section>
+
+<section>
+    <p>
+        La Programmation Orientée Objet nous permet de créer des classes qui nous permettrons ensuite d'<span class="text-hole"><strong class="fragment fade-in">instancier</strong></span> des objets.
+        Chaque classe est caractérisée par des <span class="text-hole"><strong class="fragment fade-in">propriétés</strong></span> qui représentent ses caractéristiques et des <span class="text-hole"><strong class="fragment fade-in">méthodes</strong></span> qui représentent ses comportements.
+        Dans une classe, la variable <span class="text-hole"><strong class="fragment fade-in">$this</strong></span> permet de récupérer l'instance de l'objet en cours d'utilisation tandis que <span class="text-hole"><strong class="fragment fade-in">self</strong></span> permet de récupérer la classe.
+        Il est possible de modifier la <span class="text-hole"><strong class="fragment fade-in">visibilité</strong></span> d'une propriété ou d'une méthode avec les mots clés public, <span class="text-hole"><strong class="fragment fade-in">private</strong></span> et protected.
+        En principe, l'ensemble des propriétés d'une classe doivent être en private pour respecter le principe d'<span class="text-hole"><strong class="fragment fade-in">encapsulation</strong></span>.
+        Pour modifier ces propriétés, l'utilisateur devra manipuler des <span class="text-hole"><strong class="fragment fade-in">getter / setter</strong></span>.
+    </p>
+</section>
+
+<section>
+    <h2>Media Library (étape 1)</h2>
+    <div class="container">
+        <div class="col">
+            <p>
+                Nous allons maintenant utiliser les notions vues précédemment afin de créer une librairie permettant de simplifier la gestion des médias (vidéo, images, sons...).
+            </p>
+            <p>
+                Créer la classe <code>Media</code> en vous aidant du diagramme de classe UML.
+            </p>
+        </div>
+        <div class="col">
+            <img src="assets/images/uml_media_1.png" alt="UML">
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Méthodes magiques</h2>
+    <p>
+        En PHP, les classes contiennent toutes des méthodes magiques qui seront appelées automatiquement lors de l'éxécution.
+        Par exemple, la méthode __toString() est appelée automatiquement lorsque l'on essai d'afficher un objet.
+    </p>
+<pre><code class="language-php">class Person {
+
+__toString() {
+    return $this->getFullname();
+}
+
+}
+
+$pierre = new Person("Pierre", "Jehan");
+echo $pierre;
+</code></pre>
+    <footer>
+        <a href="http://php.net/manual/fr/language.oop5.magic.php" class="info" target="_blank">Méthodes magiques</a>
+    </footer>
+</section>
+
+<section>
+    <h2>Constructeur</h2>
+    <p>
+        Chaque classe a un <strong>constructeur</strong> par défaut qui est vide (sans paramètre).
+        Cependant, il est possible de <strong>surcharger</strong> un constructeur.
+    </p>
+<pre><code class="language-php">class Person {
+
+public function __construct($nom, $prenom) {
+    $this->nom = $nom;
+    $this->prenom = $prenom;
+}
+
+}
+
+$pierre = new Person("Pierre", "Jehan");
+</code></pre>
+</section>
+
+<section>
+    <h2>Namespace</h2>
+    <p>
+        Les namepaces permettent d'éviter les <strong>conflits</strong> entre les différentes librairies importées.
+        Il permettent d'<strong>organiser</strong> des classes dans des packages comme on pourrait placer des fichiers dans des dossiers.
+        Le mot clé <code class="hljs-keyword">namespace</code> permet de définir dans quel namespace déclarer les classes qui suivront tandis que le mot clé <code class="hljs-keyword">use</code> permet d'importer les classes d'un namespace.
+    </p>
+    <div class="container">
+        <div class="col">
+<pre><code class="language-php" style="font-size: 0.7em;">namespace MyApp;
+
+class Person {
+
+}
+</code></pre>
+        </div>
+        <div class="col">
+<pre><code class="language-php" style="font-size: 0.7em;">$person = new MyApp\Person();</code></pre>
+<pre><code class="language-php" style="font-size: 0.7em;">use MyApp;
+$person = new Person();
+</code></pre>
+<pre><code class="language-php" style="font-size: 0.7em;">use MyApp as App;
+$person = new App\Person();
+</code></pre>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Autoloading</h2>
+    <p>
+        Pour éviter d'avoir à inclure l'ensemble des fichiers contenant les classes utilisées, il est possible d'utiliser un système d'autoloading en utilisant la fonction <code>__autoload()</code>.
+        Cependant, cette fonction ne pouvant être appelée qu'une seule fois lors de l'éxécution de notre code, nous allons plutôt utiliser la fonction <code>spl_autoload_register()</code>.
+    </p>
+    </code></pre>
+<pre><code class="language-php">function myapp_autoloader($class_name) {
+require_once 'MyApp/' . $class_name . '.php';
+}
+spl_autoload_register('myapp_autoloader');
+</code></pre>
+</section>
+
+<section>
+    <h2>Héritage</h2>
+    <p>
+        L'héritage est sans doute <strong>LA</strong> notion fondamentale de la POO.
+    </p>
+    <p>
+        Il permet de créer une classe <strong>fille</strong> qui héritera des propriétés et méthodes d'une classe <strong>mère</strong>.
+    </p>
+    <p>
+        Le PHP ne supporte pas l'héritage multiple.
+    </p>
+</section>
+
+<section>
+    <h2>Héritage</h2>
+    <div class="container">
+        <div class="col">
+            <p>
+                Dans l'exemple ci-contre, la classe <code>Teacher</code> est une classe enfant de la classe mère <code>Person</code>.
+                En effet, un professeur est une personne et un étudiant est également une personne.
+                Ces deux entités partagent donc des propriétés communes (nom, prénom...) et des méthodes communes (getFullname(), getAge()...) mais sont différentes (un étudiant à des notes mais pas un professeur).
+            </p>
+        </div>
+        <div class="col">
+            <img src="assets/images/uml_person_1.png" alt="UML">
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Et concrètement ?</h2>
+    <p>
+        On utilise le mot clé <code class="hljs-keyword">extends</code>
+    </p>
+<pre><code class="language-php">class Student extends Person {
+
+public $notes;
+
+public function addNote(int $note) {
+    array_push($this->notes, $note);
+}
+
+public function getAverage(): float {
+    return array_sum($this->notes) / count($this->notes);
+}
+
+}
+
+$john = new Student("John", "Doe");
+echo $john->getFullname();
+</code></pre>
+</section>
+
+<section>
+    <h2>Héritage</h2>
+    <p>
+        Il est possible de <strong>surchager</strong> une méthode d'une classe parent.
+    </p>
+<pre><code class="language-php">class Student extends Person {
+
+public function getFullname(): string {
+    return "Etudiant " . $this->firstname . " " . $this->lastname;
+}
+
+}
+
+$john = new Student("John", "Doe");
+echo $john->getFullname();
+</code></pre>
+</section>
+
+<section>
+    <h2>Héritage</h2>
+    <p>
+        Il est également possible d'appeler une méthode de la classe parent depuis la classe enfant à l'aide du mot clé <code class="hljs-keyword">parent</code>.
+    </p>
+<pre><code class="language-php">class Student extends Person {
+
+public function __contruct($nom, $prenom, $notes) {
+    parent::__construct($nom, $prenom);
+    $this->notes = $notes.
+}
+
+}
+
+$john = new Student("John", "Doe", [10, 5, 12]);
+echo $john->getAverage();
+</code></pre>
+</section>
+
+<section>
+    <h2>Media Library (étape 2)</h2>
+    <div class="container">
+        <div class="col">
+            <p>
+                Utilisez le principe d'héritage pour gérer de nouvelles classes.
+            </p>
+            <p>
+                Créer les classes <code>Picture</code>, <code>Audio</code>, <code>Video</code>, <code>Youtube</code> et <code>Vimeo</code> en vous aidant du diagramme de classe UML.
+            </p>
+        </div>
+        <div class="col">
+            <img src="assets/images/uml_media_2.png" alt="UML">
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Abstraction</h2>
+    <p>
+        L'abstraction est un principe de la POO permettant de créer des <strong>classes qui ne pourront pas être instanciées</strong>.
+        Ainsi, ces classes sont créées dans le but d'être utilisées comme <strong>classe mère</strong>. Une classe est définie comme abstraite à l'aide du mot clé <code class="hljs-keyword">abstract</code>.
+    </p>
+<pre><code class="language-php">abstract class Person {
+public $firstname;
+public $lastname;
+public $birthdate;
+function getFullname(): string {
+    return $this->firstname . " " . $this->lastname;
+}
+function getAge(): int {
+    ...
+}
+}
+
+// Erreur : La classe Person est abstraite et ne peux pas être instanciée
+$pierre = new Person("Pierre", "Jehan");
+</code></pre>
+</section>
+
+<section>
+    <h2>Media Library (étape 3)</h2>
+    <div class="container">
+        <div class="col">
+            <p>
+                Modifier les classes <code>Media</code> et <code>Video</code> pour les rendre abstraites.
+            </p>
+        </div>
+        <div class="col">
+            <img src="assets/images/uml_media_3.png" alt="UML">
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Interface</h2>
+    <p>
+        Une interface est une classe permettant de définir un <strong>comportement</strong> particulier.
+        Tout comme une classe abstraite, une interface <strong>ne peux pas être instanciée</strong>.
+        Cependant, une interface ne peux pas être utilisée avec le principe d'héritage.
+    </p>
+    <p>
+        Une interface permettra donc uniquement d'<strong>imposer</strong> des méthodes sur une classe.
+        Par principe, nous nommerons nos interfaces en utilisant le <strong>suffixe "able"</strong>.
+    </p>
+</section>
+
+<section>
+    <h2>Interface</h2>
+    <p>
+        On créé une interface en utilisant le mot clé <code class="hljs-keyword">interface</code>.
+        Une interface ne contient que les <strong>signatures</strong> des méthodes.
+        On dit que les méthodes ne sont pas <strong>implémentées</strong>.
+    </p>
+<pre><code class="language-php">interface Resizable {
+
+public function resize(int $height, int $width);
+public function getArea(): int;
+
+}
+</code></pre>
+</section>
+
+<section>
+    <h2>Interface</h2>
+    <p>
+        Une classe peut implémenter une ou plusieurs interfaces en utilisant le mot clé <code class="hljs-keyword">implements</code>.
+    </p>
+    <div class="container">
+        <div class="col">
+<pre><code class="language-php" style="font-size: 0.7em;">class Window implements Resizable {
+private $height;
+private $width;
+public function resize(int $height, int $width): int {
+    $this->height = $height;
+    $this->width = $width;
+}
+public function getArea(): int {
+    return $this->height * $this->width;
+}
+}
+</code></pre>
+        </div>
+        <div class="col">
+<pre><code class="language-php" style="font-size: 0.7em;">class Square implements Resizable {
+private $side;
+public function resize(int $height, int $width) {
+    if ($height !== $width) {
+        throw new InvalidArgumentException();
+    } else {
+        $this->side = $height;
+    }
+}
+public function getArea(): int {
+    return $side * $side;
+}
+}
+</code></pre>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Interface</h2>
+    <p>
+        Le langage PHP contient nativement plusieurs interfaces de base.
+    </p>
+<pre><code class="language-php">interface Serializable {
+public function serialize(): string;
+public function unserialize(string $serialized);
+}
+</code></pre>
+</section>
+
+<section>
+    <h2>Polymorphisme</h2>
+    <p>
+        Le polymorphisme (plusieurs formes) est un concept permettant de traiter de la même façon plusieurs types d'objet.
+    </p>
+    <div class="container">
+        <div class="col">
+<pre><code class="language-php">interface Sizable {
+public function getSize(): int;
+}
+</code></pre>
+        </div>
+        <div class="col">
+<pre><code class="language-php">class File implements Sizable {
+public function getSize(): int {
+    return $this->size;
+}
+}
+</code></pre>
+<pre><code class="language-php">class Folder implements Sizable {
+public function getSize(): int {
+    $size = 0;
+    foreach($this->content as $fileOrFolder) {
+        $size += $fileOrFolder->getSize();
+    }
+    return $size;
+}
+}
+</code></pre>
+        </div>
+    </div>
+    <footer>
+        <a href="assets/files/interface.zip" class="download" target="_blank">Code source</a>
+    </footer>
+</section>
+
+<section>
+    <h2>Media Library (étape 4)</h2>
+    <div class="container">
+        <div class="col">
+            <p>
+                Créez une interface <code>Renderable</code> et modifiez la classe <code>Media</code> afin qu'elle implémente cette interface.
+                Modifiez ensuite les autres classes en conséquence.
+            </p>
+        </div>
+        <div class="col">
+            <img src="assets/images/uml_media_4.png" alt="UML">
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Trait</h2>
+    <p>
+        Les traits permettent de palier la contrainte d'héritage unique.
+    </p>
+    <blockquote>
+        Les traits sont un mécanisme de réutilisation de code dans un langage à héritage simple tel que PHP.
+        <footer>
+            <cite>php.net</cite>
+        </footer>
+    </blockquote>
+</section>
+
+<section>
+    <h2>Trait</h2>
+    <p>
+        Le mot clé <code class="hljs-keyword">trait</code> permet de définir un nouveau trait et <code class="hljs-keyword">use</code> permet de définir l'utilisation d'un trait au sein d'une classe.
+    </p>
+    <div class="container">
+        <div class="col">
+<pre><code class="language-php">trait Author {
+protected $author = null;
+
+public function getAuthor(): string {
+    return $this->author;
+}
+
+public function setAuthor(string $author) {
+    $this->author = $author;
+}
+}
+</code></pre>
+        </div>
+        <div class="col">
+<pre><code class="language-php">trait Book {
+use Author;
+}
+</code></pre>
+<pre><code class="language-php">trait Article {
+use Author;
+}
+</code></pre>
+<pre><code class="language-php">trait Picture {
+use Author;
+}
+</code></pre>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Media Library (étape 5)</h2>
+    <div class="container">
+        <div class="col">
+            <p>
+                Créez un trait <code>Autoplay</code> et modifiez les classes <code>Video</code> et <code>Audio</code> afin qu'elles utilisent ce trait.
+            </p>
+        </div>
+        <div class="col">
+            <img src="assets/images/uml_media_5.png" alt="UML">
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Dupliquer un objet</h2>
+    <p>
+        Lorsque l'on instancie un nouvel objet, la variable contenant l'objet contient en réalité une <strong>référence</strong> (ou pointeur) vers l'espace mémoire stockant l'information.
+    </p>
+<pre><code class="language-php">$pierre = new Person("Pierre", "Jehan");
+$john = $pierre; // $john et $pierre font référence à la même instance !
+$john->setPrenom("John");
+echo $pierre->getFullname(); // Affiche "John Jehan"
+</code></pre>
+</section>
+
+<section>
+    <h2>Dupliquer un objet</h2>
+    <p>
+        Pour créer une copie d'un objet, on peut utiliser le mot clé <code class="hljs-keyword">clone</code>.
+        Lorsque l'on utilise ce mot clé, la méthode magique <code>__clone()</code> de la classe est automatiquement appelée.
+    </p>
+<pre><code class="language-php">$pierre = new Person("Pierre", "Jehan");
+$john = clone $pierre; // $john et $pierre sont deux instance différentes
+$john->setPrenom("John");
+echo $pierre->getFullname(); // Affiche "Pierre Jehan"
+</code></pre>
+</section>

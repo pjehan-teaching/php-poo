@@ -1,0 +1,412 @@
+<section id="concepts">
+
+    <section>
+        <h2>Concepts OOP</h2>
+    </section>
+
+    <section>
+        <h3>Héritage</h3>
+        <p>
+            L'héritage est sans doute <strong>LA</strong> notion fondamentale de la POO.
+        </p>
+        <p>
+            Il permet de créer une classe <strong>fille</strong> qui héritera des propriétés et méthodes d'une classe
+            <strong>mère</strong>.
+        </p>
+        <p>
+            Le PHP ne supporte pas l'héritage multiple.
+        </p>
+    </section>
+
+    <section>
+        <h3>Héritage</h3>
+        <div class="container">
+            <div class="col">
+                <p>
+                    Dans l'exemple ci-contre, la classe <code>Teacher</code> est une classe enfant de la classe mère <code>Person</code>.
+                    En effet, un professeur est une personne et un étudiant est également une personne.
+                    Ces deux entités partagent donc des propriétés communes (nom, prénom...) et des méthodes communes
+                    (getFullname(), getAge()...) mais sont différentes (un étudiant à des notes mais pas un professeur).
+                </p>
+            </div>
+            <div class="col">
+                <img src="assets/images/uml_person_1.png" alt="UML">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Et concrètement ?</h3>
+        <p>
+            On utilise le mot clé <code class="hljs-keyword">extends</code>
+        </p>
+        <pre><code class="language-php">class Student extends Person
+{
+    public $notes;
+
+    public function addNote(int $note)
+    {
+        array_push($this->notes, $note);
+    }
+
+    public function getAverage(): float
+    {
+        return array_sum($this->notes) / count($this->notes);
+    }
+}
+
+$john = new Student("John", "Doe");
+echo $john->getFullname();
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Héritage</h3>
+        <p>
+            Il est possible de <strong>surchager</strong> une méthode d'une classe parent.
+        </p>
+        <pre><code class="language-php">class Student extends Person
+{
+    public function getFullname(): string
+    {
+        return "Etudiant " . $this->firstname . " " . $this->lastname;
+    }
+}
+
+$john = new Student("John", "Doe");
+echo $john->getFullname();
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Héritage</h3>
+        <p>
+            Il est également possible d'appeler une méthode de la classe parent depuis la classe enfant à l'aide du mot clé
+            <code class="hljs-keyword">parent</code>.
+        </p>
+        <pre><code class="language-php">class Student extends Person
+{
+    public function __contruct($nom, $prenom, $notes)
+    {
+        parent::__construct($nom, $prenom);
+        $this->notes = $notes.
+    }
+}
+
+$john = new Student("John", "Doe", [10, 5, 12]);
+echo $john->getAverage();
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Media Library (étape 2)</h3>
+        <div class="container">
+            <div class="col">
+                <p>
+                    Utilisez le principe d'héritage pour gérer de nouvelles classes.
+                </p>
+                <p>
+                    Créer les classes <code>Picture</code>, <code>Audio</code>, <code>Video</code>, <code>Youtube</code> et
+                    <code>Vimeo</code> en vous aidant du diagramme de classe UML.
+                </p>
+            </div>
+            <div class="col">
+                <img src="assets/images/uml_media_2.png" alt="UML">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Abstraction</h3>
+        <p>
+            L'abstraction est un principe de la POO permettant de créer des <strong>classes qui ne pourront pas être
+            instanciées</strong>.
+            Ainsi, ces classes sont créées dans le but d'être utilisées comme <strong>classe mère</strong>. Une classe est
+            définie comme abstraite à l'aide du mot clé <code class="hljs-keyword">abstract</code>.
+        </p>
+        <pre><code class="language-php">abstract class Person
+{
+    public $firstname;
+    public $lastname;
+    public $birthdate;
+
+    public function getFullname(): string
+    {
+        return $this->firstname . " " . $this->lastname;
+    }
+
+    public function getAge(): int
+    {
+        // ...
+    }
+}
+
+// Erreur : La classe Person est abstraite et ne peux pas être instanciée
+$john = new Person("John", "Doe");
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Media Library (étape 3)</h3>
+        <div class="container">
+            <div class="col">
+                <p>
+                    Modifier les classes <code>Media</code> et <code>Video</code> pour les rendre abstraites.
+                </p>
+            </div>
+            <div class="col">
+                <img src="assets/images/uml_media_3.png" alt="UML">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Interface</h3>
+        <p>
+            Une interface est une classe permettant de définir un <strong>comportement</strong> particulier.
+            Tout comme une classe abstraite, une interface <strong>ne peux pas être instanciée</strong>.
+            Cependant, une interface ne peux pas être utilisée avec le principe d'héritage.
+        </p>
+        <p>
+            Une interface permettra donc uniquement d'<strong>imposer</strong> des méthodes sur une classe.
+            Par principe, nous nommerons nos interfaces en utilisant le <strong>suffixe "able"</strong>.
+        </p>
+    </section>
+
+    <section>
+        <h3>Interface</h3>
+        <p>
+            On créé une interface en utilisant le mot clé <code class="hljs-keyword">interface</code>.
+            Une interface ne contient que les <strong>signatures</strong> des méthodes.
+            On dit que les méthodes ne sont pas <strong>implémentées</strong>.
+        </p>
+        <pre><code class="language-php">interface Resizable
+{
+    public function resize(int $height, int $width);
+    public function getArea(): int;
+}
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Interface</h3>
+        <p>
+            Une classe peut implémenter une ou plusieurs interfaces en utilisant le mot clé <code class="hljs-keyword">implements</code>.
+        </p>
+        <div class="container">
+            <div class="col">
+            <pre><code class="language-php" style="font-size: 0.7em;">class Window implements Resizable
+{
+    private $height;
+    private $width;
+
+    public function resize(int $height, int $width): int
+    {
+        $this->height = $height;
+        $this->width = $width;
+    }
+
+    public function getArea(): int
+    {
+        return $this->height * $this->width;
+    }
+}
+</code></pre>
+            </div>
+            <div class="col">
+            <pre><code class="language-php" style="font-size: 0.7em;">class Square implements Resizable
+{
+    private $side;
+
+    public function resize(int $height, int $width)
+    {
+        if ($height !== $width) {
+            throw new InvalidArgumentException();
+        } else {
+            $this->side = $height;
+        }
+    }
+
+    public function getArea(): int
+    {
+        return $side * $side;
+    }
+}
+</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Interface</h3>
+        <p>
+            Le langage PHP contient nativement plusieurs interfaces de base.
+        </p>
+        <pre><code class="language-php">interface Serializable
+{
+    public function serialize(): string;
+    public function unserialize(string $serialized);
+}
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Polymorphisme</h3>
+        <p>
+            Le polymorphisme (plusieurs formes) est un concept permettant de traiter de la même façon plusieurs types
+            d'objet.
+        </p>
+        <div class="container">
+            <div class="col">
+            <pre><code class="language-php">interface Sizable
+{
+    public function getSize(): int;
+}
+</code></pre>
+                <pre><code class="language-php">class File implements Sizable
+{
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+}
+</code></pre>
+            </div>
+            <div class="col">
+                <pre><code class="language-php">class Folder implements Sizable
+{
+    public function getSize(): int
+    {
+        $size = 0;
+
+        foreach($this->content as $fileOrFolder) {
+            $size += $fileOrFolder->getSize();
+        }
+
+        return $size;
+    }
+}
+</code></pre>
+            </div>
+        </div>
+        <footer>
+            <a href="assets/files/interface.zip" class="download" target="_blank">Code source</a>
+        </footer>
+    </section>
+
+    <section>
+        <h3>Media Library (étape 4)</h3>
+        <div class="container">
+            <div class="col">
+                <p>
+                    Créez une interface <code>Renderable</code> et modifiez la classe <code>Media</code> afin qu'elle
+                    implémente cette interface.
+                    Modifiez ensuite les autres classes en conséquence.
+                </p>
+            </div>
+            <div class="col">
+                <img src="assets/images/uml_media_4.png" alt="UML">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Trait</h3>
+        <p>
+            Les traits permettent de palier la contrainte d'héritage unique.
+        </p>
+        <blockquote>
+            Les traits sont un mécanisme de réutilisation de code dans un langage à héritage simple tel que PHP.
+            <footer>
+                <cite>php.net</cite>
+            </footer>
+        </blockquote>
+    </section>
+
+    <section>
+        <h3>Trait</h3>
+        <p>
+            Le mot clé <code class="hljs-keyword">trait</code> permet de définir un nouveau trait et <code class="hljs-keyword">use</code>
+            permet de définir l'utilisation d'un trait au sein d'une classe.
+        </p>
+        <div class="container">
+            <div class="col">
+            <pre><code class="language-php">trait Author
+{
+    protected $author = null;
+
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(string $author)
+    {
+        $this->author = $author;
+    }
+}
+</code></pre>
+            </div>
+            <div class="col">
+            <pre><code class="language-php">trait Book
+{
+    use Author;
+}
+</code></pre>
+                <pre><code class="language-php">trait Article
+{
+    use Author;
+}
+</code></pre>
+                <pre><code class="language-php">trait Picture
+{
+    use Author;
+}
+</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Media Library (étape 5)</h3>
+        <div class="container">
+            <div class="col">
+                <p>
+                    Créez un trait <code>Autoplay</code> et modifiez les classes <code>Video</code> et <code>Audio</code>
+                    afin qu'elles utilisent ce trait.
+                </p>
+            </div>
+            <div class="col">
+                <img src="assets/images/uml_media_5.png" alt="UML">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Dupliquer un objet</h3>
+        <p>
+            Lorsque l'on instancie un nouvel objet, la variable contenant l'objet contient en réalité une <strong>référence</strong>
+            (ou pointeur) vers l'espace mémoire stockant l'information.
+        </p>
+        <pre><code class="language-php">$john = new Person("John", "Doe");
+$john = $john; // $john et $john font référence à la même instance !
+$john->setPrenom("John");
+echo $john->getFullname(); // Affiche "John Doe"
+</code></pre>
+    </section>
+
+    <section>
+        <h2>Dupliquer un objet</h2>
+        <p>
+            Pour créer une copie d'un objet, on peut utiliser le mot clé <code class="hljs-keyword">clone</code>.
+            Lorsque l'on utilise ce mot clé, la méthode magique <code>__clone()</code> de la classe est automatiquement
+            appelée.
+        </p>
+        <pre><code class="language-php">$john = new Person("John", "Doe");
+$john = clone $john; // $john et $john sont deux instance différentes
+$john->setPrenom("John");
+echo $john->getFullname(); // Affiche "John Doe"
+</code></pre>
+    </section>
+
+</section>

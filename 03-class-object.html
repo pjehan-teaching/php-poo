@@ -1,0 +1,310 @@
+<section id="class-object">
+
+    <section>
+        <h3>Classes et objets</h3>
+    </section>
+
+    <section>
+        <h3>C'est quoi un objet ?</h3>
+        <p>
+            Un <strong class="oop-object">objet</strong> est une <strong class="oop-instance">instance</strong> d'une
+            <strong class="oop-class">classe</strong>.
+        </p>
+        <p>Exemple :</p>
+        <p>
+            <strong class="oop-object">$john</strong> est une <strong class="oop-instance">instance</strong> de la classe
+            <strong class="oop-class">Personne</strong>
+        </p>
+    </section>
+
+    <section>
+        <h3>C'est quoi une classe ?</h3>
+        <p>
+            Une <strong class="oop-class">classe</strong> est la description / représentation d'un <strong class="oop-object">objet</strong>.
+        </p>
+        <p>
+            Une classe peut contenir des <strong class="oop-property">propriétés</strong> et des <strong class="oop-method">méthodes</strong>
+        </p>
+    </section>
+
+    <section>
+        <h3>C'est quoi des propriétés et des méthodes ?</h3>
+        <p>
+            Les <strong class="oop-property">propriétés</strong> représentent les caractéristiques d'une classe tandis que
+            les <strong class="oop-method">méthodes</strong> représentent des comportements.
+        </p>
+    </section>
+
+    <section>
+        <h3>On résume</h3>
+        <ol>
+            <li>On créé une <strong class="oop-class">classe</strong> en lui définissant ses <strong class="oop-property">propriétés</strong>
+                et ses <strong class="oop-method">méthodes</strong></li>
+            <li>On <strong class="oop-instance">instancie</strong> une <strong class="oop-class">classe</strong> pour créer
+                un <strong class="oop-object">objet</strong></li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>Un exemple</h3>
+        <div class="container">
+            <div class="col">
+                <div class="oop-class-container">
+                    <h3><span class="oop-class">Person</span></h3>
+                    <ul>
+                        <li><span class="oop-property">$firstname</span></li>
+                        <li><span class="oop-property">$lastname</span></li>
+                        <li><span class="oop-property">$birthdate</span></li>
+                    </ul>
+                    <ul>
+                        <li><span class="oop-method">getFullname()</span></li>
+                        <li><span class="oop-method">getAge()</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="oop-object-container fragment fade-right">
+                    <h3><span class="oop-object">$john</span></h3>
+                    <ul>
+                        <li><span class="oop-property">$firstname</span> = "John"</li>
+                        <li><span class="oop-property">$lastname</span> = "Doe"</li>
+                        <li><span class="oop-property">$birthdate</span> = NULL</li>
+                    </ul>
+                    <ul>
+                        <li><span class="oop-method">getFullname()</span></li>
+                        <li><span class="oop-method">getAge()</span></li>
+                    </ul>
+                </div>
+
+                <div class="oop-object-container fragment fade-right">
+                    <h3><span class="oop-object">$jane</span></h3>
+                    <ul>
+                        <li><span class="oop-property">$firstname</span> = "Jane"</li>
+                        <li><span class="oop-property">$lastname</span> = "Doe"</li>
+                        <li><span class="oop-property">$birthdate</span> = "12-06-1985"</li>
+                    </ul>
+                    <ul>
+                        <li><span class="oop-method">getFullname()</span></li>
+                        <li><span class="oop-method">getAge()</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Et concrètement ?</h3>
+        <pre><code class="language-php">class Person
+{
+    public $firstname;
+    public $lastname;
+    public $birthdate;
+
+    public function getFullname(): string
+    {
+        return $this->firstname . " " . $this->lastname;
+    }
+
+    public function getAge(): int {
+        // ...
+    }
+}
+
+$john = new Person();
+$john->firstname = "John";
+$john->lastname = "Doe";
+
+echo $john->getFullname();
+</code></pre>
+    </section>
+
+    <section>
+        <h3>L'instanciation</h3>
+        <p>
+            Dans le code précédent, nous avons utilisé le mot clé <code class="hljs-keyword">new</code> pour instancier un
+            nouvel objet de la <strong class="oop-class">classe</strong> Person.
+        </p>
+    </section>
+
+    <section>
+        <h3>$this</h3>
+        <p>
+            Dans le code de la <strong class="oop-class">classe</strong> Person, nous avons utilisé la variable <code class="hljs-keyword">$this</code>
+            dans la <strong class="oop-method">méthode</strong> <code>getFullname()</code>.
+            Cette variable représente l'instance de l'objet en cours.
+        </p>
+    </section>
+
+    <section>
+        <h3>self</h3>
+        <p>
+            Si <code class="hljs-keyword">$this</code> permet d'accèder à l'instance de l'objet en cours, le mot clé <code
+                class="hljs-keyword">self</code> permet lui d'accèder à la classe.
+        </p>
+    </section>
+
+    <section>
+        <h3>La visibilité</h3>
+        <p>
+            Dans le code précédent, nous avons utilisé le mot clé <code>public</code> lors de la définition des propriétés
+            de la <span class="oop-class">classe</span> <code>Person</code>.
+            Ce mot clé permet de définir la <strong>visibilité</strong> d'une <strong class="oop-property">propriété</strong>
+            ou d'une <strong class="oop-method">méthode</strong>.
+            Il existe 3 types de visibilité :
+        </p>
+        <table>
+            <thead>
+            <tr>
+                <th>Visibilité</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>public</td>
+                <td>Accessible de partout</td>
+            </tr>
+            <tr>
+                <td>private</td>
+                <td>Accessible uniquement à l'intérieur de la <strong class="oop-class">classe</strong></td>
+            </tr>
+            <tr>
+                <td>protected</td>
+                <td>Accessible uniquement à l'intérieur de la <strong class="oop-class">classe</strong> et dans les
+                    classes <strong>enfants</strong> (par héritage)</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h3>Encapsulation</h3>
+        <p>
+            Afin de respecter le principe d'<strong>encapsulation</strong> en Programmation Orientée Objet, nous allons
+            toujours déclarer les propriétés d'une classe en <code>private</code>.
+        </p>
+    </section>
+
+    <section>
+        <h3>Getter / Setter</h3>
+        <p>
+            Ensuite, pour rendre ces propriétés accessibles, l'utilisateur devra manipuler des <strong>getter</strong> et
+            <strong>setter</strong>.
+
+        </p>
+        <pre><code class="language-php">class Person
+{
+    private $firstname;
+    private $lastname;
+    private $birthdate;
+
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname)
+    {
+        $this->firstname = ucfirst($firstname);
+    }
+}
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Constante</h3>
+        <p>
+            Il est possible de définir des constantes sur une classe.
+            Les constantes sont des propriétés qui ne pourront <strong>pas être modifiées</strong>.
+            Elles sont souvent utilisées pour définir une liste de paramètres.
+        </p>
+        <pre><code class="language-php">class Person
+{
+    private $hairColor;
+
+    const HAIR_BLACK = "#382e2c";
+    const HAIR_BROWN = "#58332a";
+    const HAIR_BLOND = "#a36e38";
+
+    public function setHairColor(string $hairColor)
+    {
+        $this->hairColor = $hairColor;
+    }
+}
+
+$person = new Person();
+$person->setHairColor(Person::HAIR_BLOND);
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Propriétés et méthodes statiques</h3>
+        <p>
+            Les propriétés et méthodes statiques sont définie <strong>au niveau de la classe</strong>.
+            Si vous modifiez la valeur d'une propriété statique dans un objet, l'ensemble des instances de la classe seront
+            modifiées.
+        </p>
+        <pre><code class="language-php" style="font-size: 0.8em">class Person
+{
+    private static $height; // Taille en cm
+    public function setHeight(int $height)
+    {
+        self::$height = $height;
+    }
+    public static function getFormattedHeight(): string
+    {
+        return floor(self::$height / 100) . "m" . self::$height % 100;
+    }
+}
+
+$john = new Person();
+$john->setHeight(180);
+$john = new Person();
+$john->setHeight(185);
+echo $john->getFormattedHeight(); // Afficher 1m85
+echo Person::getFormattedHeight(); // Afficher 1m85
+</code></pre>
+        <footer>
+            <a href="#" class="warning">Evitez d'utiliser les méthodes statiques</a>
+        </footer>
+    </section>
+
+    <section>
+        <p>
+            La Programmation Orientée Objet nous permet de créer des classes qui nous permettrons ensuite d'<span class="text-hole"><strong
+                class="fragment fade-in">instancier</strong></span> des objets.
+            Chaque classe est caractérisée par des <span class="text-hole"><strong class="fragment fade-in">propriétés</strong></span>
+            qui représentent ses caractéristiques et des <span class="text-hole"><strong class="fragment fade-in">méthodes</strong></span>
+            qui représentent ses comportements.
+            Dans une classe, la variable <span class="text-hole"><strong class="fragment fade-in">$this</strong></span>
+            permet de récupérer l'instance de l'objet en cours d'utilisation tandis que <span class="text-hole"><strong
+                class="fragment fade-in">self</strong></span> permet de récupérer la classe.
+            Il est possible de modifier la <span class="text-hole"><strong class="fragment fade-in">visibilité</strong></span>
+            d'une propriété ou d'une méthode avec les mots clés public, <span class="text-hole"><strong class="fragment fade-in">private</strong></span>
+            et protected.
+            En principe, l'ensemble des propriétés d'une classe doivent être en private pour respecter le principe d'<span
+                class="text-hole"><strong class="fragment fade-in">encapsulation</strong></span>.
+            Pour modifier ces propriétés, l'utilisateur devra manipuler des <span class="text-hole"><strong class="fragment fade-in">getter
+                / setter</strong></span>.
+        </p>
+    </section>
+
+    <section>
+        <h3>Media Library (étape 1)</h3>
+        <div class="container">
+            <div class="col">
+                <p>
+                    Nous allons maintenant utiliser les notions vues précédemment afin de créer une librairie permettant de
+                    simplifier la gestion des médias (vidéo, images, sons...).
+                </p>
+                <p>
+                    Créer la classe <code>Media</code> en vous aidant du diagramme de classe UML.
+                </p>
+            </div>
+            <div class="col">
+                <img src="assets/images/uml_media_1.png" alt="UML">
+            </div>
+        </div>
+    </section>
+
+</section>

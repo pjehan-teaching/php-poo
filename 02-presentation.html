@@ -1,0 +1,130 @@
+<section id="presentation">
+
+    <section>
+        <h2>Présentation</h2>
+    </section>
+
+    <section>
+        <h3>Objectifs</h3>
+        <div class="container">
+            <div class="col">
+                <ul>
+                    <li class="fragment fade-in">Améliorer l'organisation</li>
+                    <li class="fragment fade-in">Plus proche du monde réel</li>
+                    <li class="fragment fade-in">Code réutilisable</li>
+                    <li class="fragment fade-in">Documentation aisée</li>
+                    <li class="fragment fade-in">Eviter la programmation spaghetti</li>
+                </ul>
+            </div>
+            <div class="col">
+                <img class="fragment fade-in" src="assets/images/spaghetti.gif" alt="programmation spaghetti">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Versions</h3>
+        <table style="font-size: 0.7em;">
+            <thead>
+            <tr>
+                <th>Version</th>
+                <th>Année</th>
+                <th>Nouveautés</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1.0</td>
+                <td>1995</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>3.0</td>
+                <td>1998</td>
+                <td>Orienté Objets</td>
+            </tr>
+            <tr>
+                <td>5.3</td>
+                <td>2009</td>
+                <td>Namespace, closures</td>
+            </tr>
+            <tr>
+                <td>5.4</td>
+                <td>2012</td>
+                <td>Trait, syntaxe simplifiée pour les tableaux, Serveur Web intégré</td>
+            </tr>
+            <tr>
+                <td>5.5</td>
+                <td>2013</td>
+                <td>Generators, finally, OpCache</td>
+            </tr>
+            <tr>
+                <td>5.6</td>
+                <td>2014</td>
+                <td>Expressions de constante, Opérateur de décomposition "..."</td>
+            </tr>
+            <tr>
+                <td>7.0</td>
+                <td>2015</td>
+                <td>Meilleurs performances, typage des fonctions,(paramètres et retour), opérateur null "??"</td>
+            </tr>
+            <tr>
+                <td>7.1</td>
+                <td>2016</td>
+                <td>Type de retour vide "void", typage nullable, visibilité des constantes</td>
+            </tr>
+            <tr>
+                <td>7.2</td>
+                <td>2017</td>
+                <td>Typage de paramètre "object"</td>
+            </tr>
+            <tr>
+                <td>7.3</td>
+                <td>~ Déc. 2018</td>
+                <td>Rework HEREDOC/NOWDOC, "trailing comma" en fin d'appel de fonction, support des références
+                    pour"list()"</td>
+            </tr>
+            </tbody>
+        </table>
+        <footer>
+            <a href="https://en.wikipedia.org/wiki/PHP#Release_history" class="info" target="_blank">Versions</a>
+        </footer>
+    </section>
+
+    <section>
+        <h3>Un exemple</h3>
+        <div class="container">
+            <div class="col">
+                <h4>Avant</h4>
+                <pre>
+                <code class="language-php">
+$product['title'] = checkData($_POST['title']);
+
+if(is_numeric($_POST['price'])) {
+    $product['price'] = checkData($_POST['price']);
+}
+
+insertProduct($product);
+                </code>
+            </pre>
+            </div>
+            <div class="col">
+                <h4>Après</h4>
+                <pre>
+                <code class="language-php">
+$product = new Product($request->get('title'));
+
+$product->setPrice($request->get('price'));
+$this->getDb()->save($product);
+                </code>
+            </pre>
+            </div>
+        </div>
+        <ul>
+            <li>Abstraction de la vérification des données</li>
+            <li>Cloisonnement des fonctions / méthodes</li>
+            <li>Auto-complétion par l'IDE</li>
+        </ul>
+    </section>
+
+</section>

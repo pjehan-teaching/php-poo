@@ -1,0 +1,99 @@
+<section id="namespaces">
+
+    <section>
+        <h2>Constructeurs et namespaces</h2>
+    </section>
+
+    <section>
+        <h3>Méthodes magiques</h3>
+        <p>
+            En PHP, les classes contiennent toutes des méthodes magiques qui seront appelées automatiquement lors de
+            l'éxécution.
+            Par exemple, la méthode __toString() est appelée automatiquement lorsque l'on essai d'afficher un objet.
+        </p>
+        <pre><code class="language-php">class Person
+{
+    public function __toString()
+    {
+        return $this->getFullname();
+    }
+}
+
+$john = new Person("John", "Doe");
+echo $john;
+</code></pre>
+        <footer>
+            <a href="http://php.net/manual/fr/language.oop5.magic.php" class="info" target="_blank">Méthodes magiques</a>
+        </footer>
+    </section>
+
+    <section>
+        <h3>Constructeur</h3>
+        <p>
+            Chaque classe a un <strong>constructeur</strong> par défaut qui est vide (sans paramètre).
+            Cependant, il est possible de <strong>surcharger</strong> un constructeur.
+        </p>
+        <pre><code class="language-php">class Person
+{
+    public function __construct($nom, $prenom)
+    {
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+    }
+}
+
+$john = new Person("John", "Doe");
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Namespace</h3>
+        <p>
+            Les namepaces permettent d'éviter les <strong>conflits</strong> entre les différentes librairies importées.
+            Il permettent d'<strong>organiser</strong> des classes dans des packages comme on pourrait placer des fichiers
+            dans des dossiers.
+            Le mot clé <code class="hljs-keyword">namespace</code> permet de définir dans quel namespace déclarer les
+            classes qui suivront tandis que le mot clé <code class="hljs-keyword">use</code> permet d'importer les classes
+            d'un namespace.
+        </p>
+        <div class="container">
+            <div class="col">
+            <pre><code class="language-php" style="font-size: 0.7em;">namespace MyApp;
+
+class Person
+{
+
+}
+</code></pre>
+            </div>
+            <div class="col">
+                <pre><code class="language-php" style="font-size: 0.7em;">$person = new MyApp\Person();</code></pre>
+                <pre><code class="language-php" style="font-size: 0.7em;">use MyApp;
+$person = new Person();
+</code></pre>
+                <pre><code class="language-php" style="font-size: 0.7em;">use MyApp as App;
+$person = new App\Person();
+</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h3>Autoloading</h3>
+        <p>
+            Pour éviter d'avoir à inclure l'ensemble des fichiers contenant les classes utilisées, il est possible
+            d'utiliser un système d'autoloading en utilisant la fonction <code>__autoload()</code>.
+            Cependant, cette fonction ne pouvant être appelée qu'une seule fois lors de l'éxécution de notre code, nous
+            allons plutôt utiliser la fonction <code>spl_autoload_register()</code>.
+        </p>
+        </code></pre>
+        <pre><code class="language-php">function myapp_autoloader($class_name)
+{
+    require_once 'MyApp/' . $class_name . '.php';
+}
+
+spl_autoload_register('myapp_autoloader');
+</code></pre>
+    </section>
+
+</section>

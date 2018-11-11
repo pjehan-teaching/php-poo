@@ -1,7 +1,8 @@
 <section id="mvc-views">
 
     <section>
-        <h2>Les vues</h2>
+        <h2>Construire une architecture MVC</h2>
+        <h3>Les vues</h3>
     </section>
 
     <section>
@@ -86,7 +87,7 @@ abstract class AppController extends Controller
         <p>Dans un premier temps, nous allons créer un template de page :</p>
         <pre><code class="language-php">&lt;!-- App/Views/default/index.php --&gt;
 &lt;h1&gt;Default page&lt;/h1&gt;
-<?= $username ?></code></pre>
+<?= $username; ?></code></pre>
         <p>Puis le controlleur correspondant :</p>
         <pre><code class="language-php">// App/Controller/DefaultController.php
 

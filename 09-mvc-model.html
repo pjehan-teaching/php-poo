@@ -1,0 +1,273 @@
+<section id="model">
+
+    <section>
+        <h2>Construire une architecture MVC</h2>
+        <h3>Model (DBAL)</h3>
+    </section>
+
+    <section>
+        <h3>Classe Database</h3>
+        <p>Pour gérer notre base de données, nous allons utiliser une classe Database.</p>
+        <p>Dans un premier temps, nous allons définir des propriétés que nous utiliserons ensuite dans la chaîne de connexion à la base de données :</p>
+        <pre style="max-height: 450px;"><code class="language-php">// Core/Database/Database.php
+namespace Core\Database;
+
+class Database
+{
+    private $db_name;
+    private $db_host;
+    private $db_user;
+    private $db_pass;
+
+    public function __construct(string $db_name, string $db_host = "localhost", string $db_user = "root", string $db_pass = "root")
+    {
+        $this->db_name = $db_name;
+        $this->db_host = $db_host;
+        $this->db_user = $db_user;
+        $this->db_pass = $db_pass;
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Database</h3>
+        <p>Nous allons maintenant ajouter une propriété <code class="language-php">$pdo</code> ainsi qu'une méthode <code class="language-php">getPDO()</code> :</p>
+        <pre style="max-height: 500px;"><code class="language-php">// Core/Database/Database.php
+namespace Core\Database;
+
+use PDO;
+
+class Database
+{
+    private $pdo;
+
+    public function getPDO()
+    {
+        if ($this->pdo === null) {
+            $pdo = new PDO("mysql:dbname=" . $this->db_name . ";host=" . $this->db_host, $this->db_user, $this->db_pass, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8', lc_time_names = 'fr_FR';"
+            ]);
+            $this->pdo = $pdo;
+        }
+        return $this->pdo;
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Database</h3>
+        <p>Enfin, nous allons ajouter une méthode <code class="language-php">query()</code> qui nous permettra d'exécuter des requêtes SQL :</p>
+        <pre style="max-height: 500px;"><code class="language-php">// Core/Database/Database.php
+namespace Core\Database;
+
+class Database
+{
+    public function query(string $query, string $classname = null) {
+        $stmt = $this->getPDO()->query($query);
+        if ($classname === null) {
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+        } else {
+            $stmt->setFetchMode(PDO::FETCH_CLASS, $classname, [$this]); // Create a new instance of $classname with $this as a parameter
+        }
+        $data = $stmt->fetchAll();
+        return $data;
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Database</h3>
+        <p>A présent, nous allons rendre cette classe accessible depuis nos controlleurs en ajoutant une propriété dans la classe Controller :</p>
+        <pre><code class="language-php">// Core/Controller/Controller.php
+namespace Core\Controller;
+
+use Core\Database\Database;
+
+abstract class Controller
+{
+    private $database;
+
+    public function getDatabase(): Database
+    {
+        return $this->database;
+    }
+
+    public function setDatabase($database): void
+    {
+        $this->database = $database;
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Database</h3>
+        <p>Puis nous allons passer une instance de Database aux controlleurs de notre application :</p>
+        <pre><code class="language-php">// index.php
+use Core\Autoloader;
+use Core\Database\Database;
+
+[...]
+
+$controller = new $controller();
+$controller->setDatabase(new Database("mydb"));
+$controller->$action();</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Database</h3>
+        <p>Nous allons maintenant pouvoir utiliser la base de données depuis un controlleur :</p>
+        <pre><code class="language-php">// App/Controller/DefaultController.php
+public function index() {
+    $entites = $this->getDatabase()->query("SELECT * FROM mytable");
+    $this->render("default/index", ["username" => "johndoe", "entites" => $entites]);
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Gestion des entités</h3>
+        <p>Maintenant, nous allons améliorer notre architecture en introduisant la notion d'entité. Une entité sera une classe PHP représentant une table de notre base de données.</p>
+        <p>Nous allons commencer par créer une classe abstraite <code class="language-php">Entity</code> :</p>
+        <pre style="max-height: 400px;"><code class="language-php">// Core/Entity/Entity.php
+namespace Core\Entity;
+
+use Core\Database\Database;
+
+abstract class Entity
+{
+    protected $database;
+    protected $table;
+
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+    }
+
+    public function getAll(): array
+    {
+        return $this->database->query("SELECT * FROM " . $this->table, static::class);
+    }
+
+}</code></pre>
+        <footer>
+            <a href="#" class="info">static::class retournera le nom de la classe enfant</a>
+        </footer>
+    </section>
+
+    <section>
+        <h3>Gestion des entités</h3>
+        <p>Maintenant, nous allons ajouter une méthode <code class="language-php">getEntity()</code> dans notre classe <code class="language-php">Database</code> :</p>
+        <pre><code class="language-php">// Core/Database/Database.php
+
+class Database
+{
+    [...]
+
+    public function getEntity(string $classname): Entity
+    {
+        return new $classname($this);
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Gestion des entités</h3>
+        <p>A présent nous allons créer une nouvelle classe dans notre application pour gérer les données d'une table de la base de données :</p>
+        <pre><code class="language-php">// App/Entity/MyTable.php
+
+namespace App\Entity;
+
+use Core\Database\Database;
+use Core\Entity\Entity;
+
+class MyTable extends Entity
+{
+
+    public function __construct(Database $database)
+    {
+        parent::__construct($database);
+        $this->table = "mytable";
+    }
+
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Gestion des entités</h3>
+        <p>Enfin, nous allons maintenant pouvoir rechercher la liste des civilités de la manière suivante :</p>
+        <pre><code class="language-php">// App/Controller/DefaultController.php
+class DefaultController extends AppController
+{
+    public function index() {
+        $entities = $this->getDatabase()->getEntity(MyTable::class)->getAll();
+        $this->render("default/index", ["username" => "johndoe", "entities" => $entities]);
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Gestion des associations</h3>
+        <p>Pour gérer les associations entre les tables, nous pouvons modifier nos entités pour ajouter de nouvelles méthodes :</p>
+        <pre><code class="language-php">// App/Entity/MyTable.php
+
+namespace App\Entity;
+
+use Core\Database\Database;
+use Core\Entity\Entity;
+
+class MyTable extends Entity
+{
+
+    public function getOthertable(): array {
+        return $this->database->query("SELECT * FROM othertable WHERE mytable_id = " . $this->id, "\App\Entity\OtherTable");
+    }
+
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Gestion des associations</h3>
+        <p>Nous pouvons maintenant accéder aux données depuis nos vues :</p>
+        <pre><code class="language-php">&lt;!-- App/Views/default/index.php --&gt;
+<?php $entity->getOthertable(); ?></code></pre>
+        <p>Cependant, il pourrait être pratique de pouvoir accéder à ces données en utilisant la syntaxe suivante :</p>
+        <pre><code class="language-php">&lt;!-- App/Views/default/index.php --&gt;
+<?php $entity->othertable; ?></code></pre>
+    </section>
+
+    <section>
+        <h3>Gestion des associations</h3>
+        <p>Pour cela, nous allons utiliser la méthode magique <code class="language-php">__get</code> dans notre classe <code class="language-php">Entity</code> :</p>
+        <pre><code class="language-php">// Core/Entity/Entity.php
+namespace Core\Entity;
+
+abstract class Entity
+{
+
+    [...]
+
+    public function __get($key)
+    {
+        $method = 'get' . ucfirst($key);
+        $this->$key = $this->$method();
+        return $this->$key;
+    }
+
+}</code></pre>
+        <footer>
+            <a href="#" class="warning">Attention à ne pas abuser des méthodes magiques !</a>
+        </footer>
+    </section>
+
+    <section>
+        <h3>Amélioration de la couche d'accès aux données</h3>
+        <div class="instructions">
+            <ol>
+                <li>Définir un nom de table par défaut à partir du nom de l'entité dans la classe <code class="language-php">Entity</code></li>
+                <li>Ajouter une méthode <code class="language-php">getOne()</code> dans la classe <code class="language-php">Entity</code></li>
+                <li>Modifier le code existant pour permettre d'exécuter des requêtes de type INSERT, UPDATE ou DELETE</li>
+            </ol>
+        </div>
+    </section>
+
+</section>

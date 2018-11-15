@@ -124,7 +124,7 @@ echo $john->getAverage();
             Ainsi, ces classes sont créées dans le but d'être utilisées comme <strong>classe mère</strong>. Une classe est
             définie comme abstraite à l'aide du mot clé <code class="hljs-keyword">abstract</code>.
         </p>
-        <pre><code class="language-php">abstract class Person
+        <pre style="max-height: 400px;"><code class="language-php">abstract class Person
 {
     public $firstname;
     public $lastname;
@@ -348,17 +348,17 @@ $john = new Person("John", "Doe");
 </code></pre>
             </div>
             <div class="col">
-            <pre><code class="language-php">trait Book
+            <pre><code class="language-php">class Book
 {
     use Author;
 }
 </code></pre>
-                <pre><code class="language-php">trait Article
+                <pre><code class="language-php">class Article
 {
     use Author;
 }
 </code></pre>
-                <pre><code class="language-php">trait Picture
+                <pre><code class="language-php">class Picture
 {
     use Author;
 }
@@ -389,9 +389,9 @@ $john = new Person("John", "Doe");
             (ou pointeur) vers l'espace mémoire stockant l'information.
         </p>
         <pre><code class="language-php">$john = new Person("John", "Doe");
-$john = $john; // $john et $john font référence à la même instance !
-$john->setPrenom("John");
-echo $john->getFullname(); // Affiche "John Doe"
+$jack = $john; // $jack et $john font référence à la même instance !
+$jack->setPrenom("Jack");
+echo $john->getFullname(); // Affiche "Jack Doe"
 </code></pre>
     </section>
 
@@ -403,8 +403,8 @@ echo $john->getFullname(); // Affiche "John Doe"
             appelée.
         </p>
         <pre><code class="language-php">$john = new Person("John", "Doe");
-$john = clone $john; // $john et $john sont deux instance différentes
-$john->setPrenom("John");
+$jack = clone $john; // $john et $john sont deux instance différentes
+$jack->setPrenom("Jack");
 echo $john->getFullname(); // Affiche "John Doe"
 </code></pre>
     </section>

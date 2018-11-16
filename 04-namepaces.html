@@ -20,6 +20,7 @@
 }
 
 $john = new Person("John", "Doe");
+
 echo $john;
 </code></pre>
         <footer>
@@ -50,15 +51,17 @@ $john = new Person("John", "Doe");
         <h3>Namespace</h3>
         <p>
             Les namepaces permettent d'éviter les <strong>conflits</strong> entre les différentes librairies importées.
-            Il permettent d'<strong>organiser</strong> des classes dans des packages comme on pourrait placer des fichiers
+            Il permettent d'<strong>organiser</strong> des classes dans des packages comme on pourrait placer des
+            fichiers
             dans des dossiers.
             Le mot clé <code class="hljs-keyword">namespace</code> permet de définir dans quel namespace déclarer les
-            classes qui suivront tandis que le mot clé <code class="hljs-keyword">use</code> permet d'importer les classes
+            classes qui suivront tandis que le mot clé <code class="hljs-keyword">use</code> permet d'importer les
+            classes
             d'un namespace.
         </p>
         <div class="container">
             <div class="col">
-            <pre><code class="language-php" style="font-size: 0.7em;">namespace MyApp;
+                <pre><code class="language-php" style="font-size: 0.7em;">namespace MyApp;
 
 class Person
 {

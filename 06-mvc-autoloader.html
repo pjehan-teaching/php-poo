@@ -1,0 +1,85 @@
+<section id="mvc-autoloader">
+
+    <section>
+        <h2>Construire une architecture MVC</h2>
+        <h3>Autoloader</h3>
+    </section>
+
+    <section>
+        <h3>Mise en place de l'autoloader</h3>
+        <p>Nous allons commencer par mettre un place un autoloader.</p>
+        <p>Pour cela, nous allons créer une classe <code class="language-php">Autoloader</code> :</p>
+        <pre><code class="language-php">// Core/Autoloader.php
+
+namespace Core;
+
+/**
+ * Class Autoloader
+ * @package Core
+ */
+class Autoloader
+{
+
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Mise en place de l'autoloader</h3>
+        <p>Nous allons maintenant ajouter une méthode statique <code class="language-php">register()</code> qui se
+            chargera de définir une autre méthode de la classe comme la fonction à utiliser pour l'autoloading :</p>
+        <pre><code class="language-php">class Autoloader
+{
+    /**
+     * Require the file for the specific class
+     * @param string $class Class name
+     */
+    static function autoload(string $class)
+    {
+        // TODO: Implement autoloading
+    }
+
+    /**
+     * Register class autoloader
+     */
+    static function register()
+    {
+        spl_autoload_register(array(__CLASS__, 'autoload'));
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Mise en place de l'autoloader</h3>
+        <p>Enfin, nous allons implémenter la méthode <code class="language-php">autoload()</code> pour charger
+            dynamiquement nos classes :</p>
+        <pre><code class="language-php">/**
+ * Require the file for the specific class
+ * @param string $class Class name
+ */
+static function autoload(string $class)
+{
+    $parts     = explode("\\", $class);
+    $className = array_pop($parts);
+    $filepath  = __DIR__ . "/../" . implode(DIRECTORY_SEPARATOR, $parts) . "/" . $className . ".php";
+
+    require_once $filepath;
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Test de l'autoloader</h3>
+        <p>Nous pouvons maintenant tester notre autoloader en créant une nouvelle classe <code class="language-php">Test</code>
+            dans le dossier Core et en essayant de l'appeler depuis le fichier index.php :</p>
+        <pre><code class="language-php">// index.php
+
+use Core\Autoloader;
+use Core\Test;
+
+require_once "Core/Autoloader.php";
+
+Autoloader::register();
+
+$test = new Test();</code></pre>
+    </section>
+
+</section>

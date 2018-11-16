@@ -23,10 +23,12 @@
         <div class="container">
             <div class="col">
                 <p>
-                    Dans l'exemple ci-contre, la classe <code>Teacher</code> est une classe enfant de la classe mère <code>Person</code>.
+                    Dans l'exemple ci-contre, la classe <code>Teacher</code> est une classe enfant de la classe mère
+                    <code>Person</code>.
                     En effet, un professeur est une personne et un étudiant est également une personne.
                     Ces deux entités partagent donc des propriétés communes (nom, prénom...) et des méthodes communes
-                    (getFullname(), getAge()...) mais sont différentes (un étudiant à des notes mais pas un professeur).
+                    (getFullname(), getAge()...) mais sont différentes (un étudiant à des notes mais pas un
+                    professeur).
                 </p>
             </div>
             <div class="col">
@@ -81,7 +83,8 @@ echo $john->getFullname();
     <section>
         <h3>Héritage</h3>
         <p>
-            Il est également possible d'appeler une méthode de la classe parent depuis la classe enfant à l'aide du mot clé
+            Il est également possible d'appeler une méthode de la classe parent depuis la classe enfant à l'aide du mot
+            clé
             <code class="hljs-keyword">parent</code>.
         </p>
         <pre><code class="language-php">class Student extends Person
@@ -106,7 +109,8 @@ echo $john->getAverage();
                     Utilisez le principe d'héritage pour gérer de nouvelles classes.
                 </p>
                 <p>
-                    Créer les classes <code>Picture</code>, <code>Audio</code>, <code>Video</code>, <code>Youtube</code> et
+                    Créer les classes <code>Picture</code>, <code>Audio</code>, <code>Video</code>, <code>Youtube</code>
+                    et
                     <code>Vimeo</code> en vous aidant du diagramme de classe UML.
                 </p>
             </div>
@@ -120,8 +124,9 @@ echo $john->getAverage();
         <h3>Abstraction</h3>
         <p>
             L'abstraction est un principe de la POO permettant de créer des <strong>classes qui ne pourront pas être
-            instanciées</strong>.
-            Ainsi, ces classes sont créées dans le but d'être utilisées comme <strong>classe mère</strong>. Une classe est
+                instanciées</strong>.
+            Ainsi, ces classes sont créées dans le but d'être utilisées comme <strong>classe mère</strong>. Une classe
+            est
             définie comme abstraite à l'aide du mot clé <code class="hljs-keyword">abstract</code>.
         </p>
         <pre><code class="language-php">abstract class Person
@@ -195,7 +200,7 @@ $john = new Person("John", "Doe");
         </p>
         <div class="container">
             <div class="col">
-            <pre><code class="language-php" style="font-size: 0.7em;">class Window implements Resizable
+                <pre><code class="language-php" style="font-size: 0.7em;">class Window implements Resizable
 {
     private $height;
     private $width;
@@ -214,7 +219,7 @@ $john = new Person("John", "Doe");
 </code></pre>
             </div>
             <div class="col">
-            <pre><code class="language-php" style="font-size: 0.7em;">class Square implements Resizable
+                <pre><code class="language-php" style="font-size: 0.7em;">class Square implements Resizable
 {
     private $side;
 
@@ -258,7 +263,7 @@ $john = new Person("John", "Doe");
         </p>
         <div class="container">
             <div class="col">
-            <pre><code class="language-php">interface Sizable
+                <pre><code class="language-php">interface Sizable
 {
     public function getSize(): int;
 }
@@ -331,7 +336,7 @@ $john = new Person("John", "Doe");
         </p>
         <div class="container">
             <div class="col">
-            <pre><code class="language-php">trait Author
+                <pre><code class="language-php">trait Author
 {
     protected $author = null;
 
@@ -348,17 +353,17 @@ $john = new Person("John", "Doe");
 </code></pre>
             </div>
             <div class="col">
-            <pre><code class="language-php">trait Book
+                <pre><code class="language-php">class Book
 {
     use Author;
 }
 </code></pre>
-                <pre><code class="language-php">trait Article
+                <pre><code class="language-php">class Article
 {
     use Author;
 }
 </code></pre>
-                <pre><code class="language-php">trait Picture
+                <pre><code class="language-php">class Picture
 {
     use Author;
 }
@@ -382,16 +387,18 @@ $john = new Person("John", "Doe");
         </div>
     </section>
 
-    <section>
+    <section>''
         <h3>Dupliquer un objet</h3>
         <p>
             Lorsque l'on instancie un nouvel objet, la variable contenant l'objet contient en réalité une <strong>référence</strong>
             (ou pointeur) vers l'espace mémoire stockant l'information.
         </p>
         <pre><code class="language-php">$john = new Person("John", "Doe");
-$john = $john; // $john et $john font référence à la même instance !
-$john->setPrenom("John");
-echo $john->getFullname(); // Affiche "John Doe"
+$jane = $john; // $jane et $john font référence à la même instance !
+
+$jane->setPrenom("Jane");
+
+echo $john->getFullname(); // Affiche "Jane Doe"
 </code></pre>
     </section>
 
@@ -403,8 +410,10 @@ echo $john->getFullname(); // Affiche "John Doe"
             appelée.
         </p>
         <pre><code class="language-php">$john = new Person("John", "Doe");
-$john = clone $john; // $john et $john sont deux instance différentes
-$john->setPrenom("John");
+$jane = clone $john; // $jane et $john sont deux instance différentes
+
+$jane->setPrenom("Jane");
+
 echo $john->getFullname(); // Affiche "John Doe"
 </code></pre>
     </section>

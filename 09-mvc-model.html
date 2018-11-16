@@ -41,7 +41,7 @@ class Database
 {
     private $pdo;
 
-    public function getPDO()
+    public function getPDO(): PDO
     {
         if ($this->pdo === null) {
             $pdo = new PDO("mysql:dbname=" . $this->db_name . ";host=" . $this->db_host, $this->db_user, $this->db_pass, [

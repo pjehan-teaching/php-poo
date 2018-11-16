@@ -57,8 +57,7 @@ class Autoloader
 static function autoload(string $class): void
 {
     $parts = explode("\\", $class);
-    $className = array_pop($parts);
-    $filepath = __DIR__ . "/../" . implode(DIRECTORY_SEPARATOR, $parts) . "/" . $className . ".php";
+    $filepath = __DIR__ . "/../" . implode(DIRECTORY_SEPARATOR, $parts) . ".php";
 
     require_once $filepath;
 }</code></pre>

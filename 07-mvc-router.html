@@ -30,7 +30,8 @@ define("CONTROLLER_NAMESPACE", "\App\Controller\\");
 
 Autoloader::register();
 
-$siteRoot = "/" . ltrim(__DIR__, $_SERVER["DOCUMENT_ROOT"]) . "/";
+$dir = str_replace("\\", "/", __DIR__);
+$siteRoot = substr($dir, strlen($_SERVER["DOCUMENT_ROOT"]), strlen($dir)) . "/";
 $currentUrl = str_replace($siteRoot, "", $_SERVER["REQUEST_URI"]);
 $parts = explode("/", $currentUrl);</code></pre>
     </section>

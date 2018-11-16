@@ -18,8 +18,10 @@ RewriteRule (.*) index.php</code></pre>
 
     <section>
         <h3>Gestion des routes</h3>
-        <p>Maintenant, nous allons pouvoir créer notre routeur et rediriger les requêtes vers les actions correspondantes.</p>
-        <p>Pour cela, nous allons dans un premier temps stocker le namespace de nos controllers dans une constante puis récupérer les différentes parties qui composent l'URL en cours :</p>
+        <p>Maintenant, nous allons pouvoir créer notre routeur et rediriger les requêtes vers les actions
+            correspondantes.</p>
+        <p>Pour cela, nous allons dans un premier temps stocker le namespace de nos controllers dans une constante puis
+            récupérer les différentes parties qui composent l'URL en cours :</p>
         <pre><code class="language-php">// index.php
 
 use Core\Autoloader;
@@ -30,24 +32,25 @@ define("CONTROLLER_NAMESPACE", "\App\Controller\\");
 
 Autoloader::register();
 
-$siteRoot = "/" . ltrim(__DIR__, $_SERVER["DOCUMENT_ROOT"]) . "/";
-$currentUrl = str_replace($siteRoot, "", $_SERVER["REQUEST_URI"]);
-$parts = explode("/", $currentUrl);</code></pre>
+$parts      = explode("/", $_SERVER["REQUEST_URI"]);</code></pre>
     </section>
 
     <section>
         <h3>Gestion des routes</h3>
         <p>Nous pouvons maintenant charger la bonne action à charger en fonction de l'URL en cours :</p>
         <pre><code class="language-php">$controller = CONTROLLER_NAMESPACE . "DefaultController"; // Default controller
-$action = "index"; // Default action
+$action     = "index"; // Default action
+
 if ($parts[0]) {
     $controller = CONTROLLER_NAMESPACE . ucfirst($parts[0]) . "Controller";
+    
     if (isset($parts[1])) {
         $action = $parts[1];
     }
 }
 
 $controller = new $controller();
+
 $controller->$action();</code></pre>
     </section>
 
@@ -58,14 +61,12 @@ $controller->$action();</code></pre>
 
 namespace App\Controller;
 
-
 class TestController
 {
-
-    public function show() {
+    public function show()
+    {
         echo "test controller";
     }
-
 }</code></pre>
         <p>Essayez ensuite d'accéder à l'URL <a href="http://localhost/test/show">/test/show</a> dans votre navigateur.</p>
     </section>

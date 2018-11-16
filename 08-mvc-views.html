@@ -44,7 +44,6 @@ namespace Core\Controller;
 
 abstract class Controller
 {
-
     protected $viewPath;
     protected $template;
 
@@ -56,13 +55,13 @@ abstract class Controller
         $content = ob_get_clean(); // Store the output in a variable
         require($this->viewPath . $this->template . '.php');
     }
-
 }</code></pre>
     </section>
 
     <section>
         <h3>App Controller</h3>
-        <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controlleurs mais cette fois-ci spécifiquement pour notre application :</p>
+        <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controlleurs mais cette fois-ci
+            spécifiquement pour notre application :</p>
         <pre><code class="language-php">// App/Controller/AppController.php
 
 namespace App\Controller;
@@ -71,13 +70,11 @@ use Core\Controller\Controller;
 
 abstract class AppController extends Controller
 {
-
     public function __construct()
     {
         $this->viewPath = __DIR__ . "/../Views/";
         $this->template = "default";
     }
-
 }</code></pre>
     </section>
 
@@ -93,14 +90,12 @@ abstract class AppController extends Controller
 
 namespace App\Controller;
 
-
 class DefaultController extends AppController
 {
-
-    public function index() {
+    public function index()
+    {
         $this->render("default/index", ["username" => "johndoe"]);
     }
-
 }</code></pre>
     </section>
 

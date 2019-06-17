@@ -31,14 +31,14 @@ define("CONTROLLER_NAMESPACE", "\App\Controller\\");
 Autoloader::register();
 
 $dir = str_replace("\\", "/", __DIR__);
-$siteRoot = substr($dir, strlen($_SERVER["DOCUMENT_ROOT"]), strlen($dir)) . "/";
+$siteRoot = substr($dir, strlen($_SERVER["DOCUMENT_ROOT"]), strlen($dir)) . "/");
 $currentUrl = str_replace($siteRoot, "", $_SERVER["REQUEST_URI"]);
 $parts = explode("/", $currentUrl);</code></pre>
     </section>
 
     <section>
         <h3>Gestion des routes</h3>
-        <p>Nous pouvons maintenant charger la bonne action à charger en fonction de l'URL en cours :</p>
+        <p>Nous pouvons maintenant charger la bonne action en fonction de l'URL en cours :</p>
         <pre><code class="language-php">$controller = CONTROLLER_NAMESPACE . "DefaultController"; // Default controller
 $action = "index"; // Default action
 if ($parts[0]) {

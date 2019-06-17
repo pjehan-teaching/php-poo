@@ -5,6 +5,25 @@
     </section>
 
     <section>
+        <h3>Constructeur</h3>
+        <p>
+            Chaque classe a un <strong>constructeur</strong> par défaut qui est vide (sans paramètre).
+            Cependant, il est possible de <strong>surcharger</strong> un constructeur.
+        </p>
+        <pre><code class="language-php">class Person
+{
+    public function __construct($nom, $prenom)
+    {
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+    }
+}
+
+$john = new Person("John", "Doe");
+</code></pre>
+    </section>
+
+    <section>
         <h3>Méthodes magiques</h3>
         <p>
             En PHP, les classes contiennent toutes des méthodes magiques qui seront appelées automatiquement lors de
@@ -25,25 +44,6 @@ echo $john;
         <footer>
             <a href="http://php.net/manual/fr/language.oop5.magic.php" class="info" target="_blank">Méthodes magiques</a>
         </footer>
-    </section>
-
-    <section>
-        <h3>Constructeur</h3>
-        <p>
-            Chaque classe a un <strong>constructeur</strong> par défaut qui est vide (sans paramètre).
-            Cependant, il est possible de <strong>surcharger</strong> un constructeur.
-        </p>
-        <pre><code class="language-php">class Person
-{
-    public function __construct($nom, $prenom)
-    {
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-    }
-}
-
-$john = new Person("John", "Doe");
-</code></pre>
     </section>
 
     <section>

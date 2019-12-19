@@ -1,0 +1,58 @@
+.reveal {
+
+    pre[class*="language-"] {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 0.6em;
+        padding: 0.5em;
+        code {
+            padding: 0;
+        }
+    }
+
+    .oop-class-container,
+    .oop-object-container {
+        margin: 5px;
+        padding: 5px;
+        h3 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+        ul {
+            display: block;
+            font-size: 0.8em;
+            list-style-type: none;
+            margin: 0;
+            border-top: black 1px solid;
+        }
+    }
+
+    .oop-class-container {
+        border: red 2px solid;
+    }
+
+    .oop-object-container {
+        border: blue 2px dashed;
+    }
+
+    .oop-object {
+        color: blue;
+    }
+
+    .oop-class {
+        color: red;
+    }
+
+    .oop-instance {
+        color: orange;
+    }
+
+    .oop-property {
+        color: green;
+    }
+
+    .oop-method {
+        color: purple;
+    }
+
+}

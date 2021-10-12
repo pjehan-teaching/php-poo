@@ -96,9 +96,9 @@
         <h3>Et concrètement ?</h3>
         <pre><code class="language-php">class Person
 {
-    public $firstname;
-    public $lastname;
-    public $birthdate;
+    public string $firstname;
+    public string $lastname;
+    public \DateTime $birthdate;
 
     public function getFullname(): string
     {
@@ -194,9 +194,9 @@ echo $john->getFullname();
         </p>
         <pre><code class="language-php">class Person
 {
-    private $firstname;
-    private $lastname;
-    private $birthdate;
+    private string $firstname;
+    private string $lastname;
+    private \DateTime $birthdate;
 
     public function getFirstname(): string
     {
@@ -220,7 +220,7 @@ echo $john->getFullname();
         </p>
         <pre><code class="language-php">class Person
 {
-    private $hairColor;
+    private string $hairColor;
 
     const HAIR_BLACK = "#382e2c";
     const HAIR_BROWN = "#58332a";
@@ -247,7 +247,7 @@ $person->setHairColor(Person::HAIR_BLOND);
         <pre><code class="language-php" style="font-size: 0.8em">class Person
 {
     private static $height; // Taille en cm
-    public function setHeight(int $height)
+    public function setHeight(int $height): void
     {
         self::$height = $height;
     }
@@ -260,8 +260,7 @@ $person->setHairColor(Person::HAIR_BLOND);
 $john = new Person();
 $john->setHeight(180);
 $jane = new Person();
-$jane
-            ->setHeight(185);
+$jane->setHeight(185);
 echo $john->getFormattedHeight(); // Afficher 1m85
 echo Person::getFormattedHeight(); // Afficher 1m85
 </code></pre>

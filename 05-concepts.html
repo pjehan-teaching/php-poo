@@ -42,9 +42,9 @@
         </p>
         <pre><code class="language-php">class Student extends Person
 {
-    public $notes;
+    private int $notes;
 
-    public function addNote(int $note)
+    public function addNote(int $note): void
     {
         array_push($this->notes, $note);
     }
@@ -86,7 +86,7 @@ echo $john->getFullname();
         </p>
         <pre><code class="language-php">class Student extends Person
 {
-    public function __contruct($nom, $prenom, $notes)
+    public function __contruct(string $nom, string $prenom, array $notes)
     {
         parent::__construct($nom, $prenom);
         $this->notes = $notes.
@@ -126,9 +126,9 @@ echo $john->getAverage();
         </p>
         <pre style="max-height: 400px;"><code class="language-php">abstract class Person
 {
-    public $firstname;
-    public $lastname;
-    public $birthdate;
+    public string $firstname;
+    public string $lastname;
+    public \DateTime $birthdate;
 
     public function getFullname(): string
     {
@@ -182,7 +182,7 @@ $john = new Person("John", "Doe");
         </p>
         <pre><code class="language-php">interface Resizable
 {
-    public function resize(int $height, int $width);
+    public function resize(int $height, int $width): void;
     public function getArea(): int;
 }
 </code></pre>
@@ -197,8 +197,8 @@ $john = new Person("John", "Doe");
             <div class="col">
             <pre><code class="language-php" style="font-size: 0.7em;">class Window implements Resizable
 {
-    private $height;
-    private $width;
+    private int $height;
+    private int $width;
 
     public function resize(int $height, int $width): int
     {
@@ -216,7 +216,7 @@ $john = new Person("John", "Doe");
             <div class="col">
             <pre><code class="language-php" style="font-size: 0.7em;">class Square implements Resizable
 {
-    private $side;
+    private int $side;
 
     public function resize(int $height, int $width)
     {
@@ -341,7 +341,7 @@ $john = new Person("John", "Doe");
             <div class="col">
             <pre><code class="language-php">trait Author
 {
-    protected $author = null;
+    protected string $author = null;
 
     public function getAuthor(): string
     {

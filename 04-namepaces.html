@@ -12,7 +12,10 @@
         </p>
         <pre><code class="language-php">class Person
 {
-    public function __construct($nom, $prenom)
+    private string $nom;
+    private string $prenom;
+
+    public function __construct(string $nom, string $prenom)
     {
         $this->nom = $nom;
         $this->prenom = $prenom;
@@ -21,6 +24,26 @@
 
 $john = new Person("John", "Doe");
 </code></pre>
+    </section>
+
+    <section>
+        <h3>Constructeur</h3>
+        <p>
+            Depuis PHP 8.0, il est maintenant possible de déclarer des propriétés directement dans les paramètres du
+            constructeur grace au "Constructor property promotion" :
+        </p>
+        <pre><code class="language-php">class Person
+{
+    public function __construct(public string $nom, public string $prenom)
+    {
+    }
+}
+
+$john = new Person("John", "Doe");
+</code></pre>
+        <footer>
+            <a href="https://wiki.php.net/rfc/constructor_promotion" target="_blank" class="info">Constructor property promotion</a>
+        </footer>
     </section>
 
     <section>

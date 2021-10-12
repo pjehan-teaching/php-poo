@@ -24,7 +24,7 @@
 
     <section>
         <h3>Versions</h3>
-        <table style="font-size: 0.7em;">
+        <table style="font-size: 0.5em;">
             <thead>
             <tr>
                 <th>Version</th>
@@ -88,6 +88,16 @@
                 <td>Nov. 2019</td>
                 <td>Arrow functions, Typed properties, Null coalescing operator (??), Spread operator (...) in arrays</td>
             </tr>
+            <tr>
+                <td>8.0</td>
+                <td>Nov. 2020</td>
+                <td>Attributes, union types, nullsafe operator, JIT compilation</td>
+            </tr>
+            <tr>
+                <td>8.1</td>
+                <td>Nov. 2021</td>
+                <td>Enumerations</td>
+            </tr>
             </tbody>
         </table>
         <footer>
@@ -100,28 +110,21 @@
         <div class="container">
             <div class="col">
                 <h4>Avant</h4>
-                <pre>
-                <code class="language-php">
-$product['title'] = checkData($_POST['title']);
+<pre><code class="language-php">$product['title'] = checkData($_POST['title']);
 
 if(is_numeric($_POST['price'])) {
     $product['price'] = checkData($_POST['price']);
 }
 
-insertProduct($product);
-                </code>
-            </pre>
+insertProduct($product);</code></pre>
             </div>
             <div class="col">
                 <h4>Après</h4>
-                <pre>
-                <code class="language-php">
-$product = new Product($request->get('title'));
+<pre><code class="language-php">$product = new Product($request->get('title'));
 
 $product->setPrice($request->get('price'));
 $this->getDb()->save($product);
-                </code>
-            </pre>
+</code></pre>
             </div>
         </div>
         <ul>

@@ -38,7 +38,7 @@
     <section>
         <h3>On résume</h3>
         <ol>
-            <li>On créé une <strong class="oop-class">classe</strong> en lui définissant ses <strong class="oop-property">propriétés</strong>
+            <li>On crée une <strong class="oop-class">classe</strong> en lui définissant ses <strong class="oop-property">propriétés</strong>
                 et ses <strong class="oop-method">méthodes</strong></li>
             <li>On <strong class="oop-instance">instancie</strong> une <strong class="oop-class">classe</strong> pour créer
                 un <strong class="oop-object">objet</strong></li>
@@ -81,7 +81,7 @@
                     <ul>
                         <li><span class="oop-property">$firstname</span> = "Jane"</li>
                         <li><span class="oop-property">$lastname</span> = "Doe"</li>
-                        <li><span class="oop-property">$birthdate</span> = "12-06-1985"</li>
+                        <li><span class="oop-property">$birthdate</span> = "1985-06-12"</li>
                     </ul>
                     <ul>
                         <li><span class="oop-method">getFullname()</span></li>
@@ -106,7 +106,7 @@
     }
 
     public function getAge(): int {
-        // ...
+        return $this->birthdate->diff(new \DateTime())->y;
     }
 }
 
@@ -131,15 +131,15 @@ echo $john->getFullname();
         <p>
             Dans le code de la <strong class="oop-class">classe</strong> Person, nous avons utilisé la variable <code class="hljs-keyword">$this</code>
             dans la <strong class="oop-method">méthode</strong> <code>getFullname()</code>.
-            Cette variable représente l'instance de l'objet en cours.
+            Cette variable représente l'instance de l'objet en cours d'utilisation.
         </p>
     </section>
 
     <section>
         <h3>self</h3>
         <p>
-            Si <code class="hljs-keyword">$this</code> permet d'accèder à l'instance de l'objet en cours, le mot clé <code
-                class="hljs-keyword">self</code> permet lui d'accèder à la classe.
+            Si <code class="hljs-keyword">$this</code> permet d'accéder à l'instance de l'objet en cours, le mot clé
+            <code class="hljs-keyword">self</code> permet lui d'accéder à la classe.
         </p>
     </section>
 
@@ -170,8 +170,10 @@ echo $john->getFullname();
             </tr>
             <tr>
                 <td>protected</td>
-                <td>Accessible uniquement à l'intérieur de la <strong class="oop-class">classe</strong> et dans les
-                    classes <strong>enfants</strong> (par héritage)</td>
+                <td>
+                    Accessible uniquement à l'intérieur de la <strong class="oop-class">classe</strong>
+                    et dans les classes <strong>enfants</strong> (par héritage)
+                </td>
             </tr>
             </tbody>
         </table>
@@ -188,9 +190,8 @@ echo $john->getFullname();
     <section>
         <h3>Getter / Setter</h3>
         <p>
-            Ensuite, pour rendre ces propriétés accessibles, l'utilisateur devra manipuler des <strong>getter</strong> et
-            <strong>setter</strong>.
-
+            Ensuite, pour rendre ces propriétés accessibles, les développeurs devront manipuler des
+            <strong>getter</strong> et <strong>setter</strong>.
         </p>
         <pre><code class="language-php">class Person
 {
@@ -222,9 +223,9 @@ echo $john->getFullname();
 {
     private string $hairColor;
 
-    const HAIR_BLACK = "#382e2c";
-    const HAIR_BROWN = "#58332a";
-    const HAIR_BLOND = "#a36e38";
+    const string HAIR_BLACK = "#382e2c";
+    const string HAIR_BROWN = "#58332a";
+    const string HAIR_BLOND = "#a36e38";
 
     public function setHairColor(string $hairColor)
     {

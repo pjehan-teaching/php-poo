@@ -26,7 +26,7 @@
                     Dans l'exemple ci-contre, la classe <code>Teacher</code> est une classe enfant de la classe mère <code>Person</code>.
                     En effet, un professeur est une personne et un étudiant est également une personne.
                     Ces deux entités partagent donc des propriétés communes (nom, prénom...) et des méthodes communes
-                    (getFullname(), getAge()...) mais sont différentes (un étudiant à des notes mais pas un professeur).
+                    (getFullname(), getAge()...) mais sont différentes (un étudiant à des notes, mais pas un professeur).
                 </p>
             </div>
             <div class="col">
@@ -76,6 +76,10 @@ echo $john->getFullname();
 $john = new Student("John", "Doe");
 echo $john->getFullname();
 </code></pre>
+        <p>
+            Depuis PHP 8.3, l'attribut <a href="https://stitcher.io/blog/override-in-php-83" class="info" target="_blank">#[Override]</a>
+            peut être utilisé pour indiquer qu'une méthode surcharge une méthode parent.
+        </p>
     </section>
 
     <section>
@@ -137,7 +141,7 @@ echo $john->getAverage();
 
     public function getAge(): int
     {
-        // ...
+        return $this->birthdate->diff(new \DateTime())->y;
     }
 }
 
@@ -164,7 +168,7 @@ $john = new Person("John", "Doe");
         <h3>Interface</h3>
         <p>
             Une interface est une classe permettant de définir un <strong>comportement</strong> particulier.
-            Tout comme une classe abstraite, une interface <strong>ne peux pas être instanciée</strong>.
+            Tout comme une classe abstraite, une interface <strong>ne peut pas être instanciée</strong>.
             Cependant, une interface ne peut pas être utilisée avec le principe d'héritage.
         </p>
         <p>
@@ -176,7 +180,7 @@ $john = new Person("John", "Doe");
     <section>
         <h3>Interface</h3>
         <p>
-            On créé une interface en utilisant le mot clé <code class="hljs-keyword">interface</code>.
+            On crée une interface en utilisant le mot clé <code class="hljs-keyword">interface</code>.
             Une interface ne contient que les <strong>signatures</strong> des méthodes.
             On dit que les méthodes ne sont pas <strong>implémentées</strong>.
         </p>

@@ -49,9 +49,8 @@ $john = new Person("John", "Doe");
     <section>
         <h3>Méthodes magiques</h3>
         <p>
-            En PHP, les classes contiennent toutes des méthodes magiques qui seront appelées automatiquement lors de
-            l'éxécution.
-            Par exemple, la méthode __toString() est appelée automatiquement lorsque l'on essai d'afficher un objet.
+            En PHP, les classes contiennent toutes des méthodes magiques qui seront appelées automatiquement lors de l'exécution.
+            Par exemple, la méthode __toString() est appelée automatiquement lorsque l'ont essai d'afficher un objet.
         </p>
         <pre><code class="language-php">class Person
 {
@@ -73,7 +72,7 @@ echo $john;
         <h3>Namespace</h3>
         <p>
             Les namepaces permettent d'éviter les <strong>conflits</strong> entre les différentes librairies importées.
-            Il permettent d'<strong>organiser</strong> des classes dans des packages comme on pourrait placer des fichiers
+            Ils permettent d'<strong>organiser</strong> des classes dans des packages comme on pourrait placer des fichiers
             dans des dossiers.
             Le mot clé <code class="hljs-keyword">namespace</code> permet de définir dans quel namespace déclarer les
             classes qui suivront tandis que le mot clé <code class="hljs-keyword">use</code> permet d'importer les classes
@@ -109,7 +108,6 @@ $person = new Personne();
             Cependant, cette fonction ne pouvant être appelée qu'une seule fois lors de l'éxécution de notre code, nous
             allons plutôt utiliser la fonction <code>spl_autoload_register()</code>.
         </p>
-        </code></pre>
         <pre><code class="language-php">function myapp_autoloader($class_name)
 {
     require_once 'MyApp/' . $class_name . '.php';

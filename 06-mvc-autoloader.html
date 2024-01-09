@@ -7,7 +7,7 @@
 
     <section>
         <h3>Mise en place de l'autoloader</h3>
-        <p>Nous allons commencer par mettre un place un autoloader.</p>
+        <p>Nous allons commencer par mettre en place un autoloader.</p>
         <p>Pour cela, nous allons créer une classe <code class="language-php">Autoloader</code> :</p>
         <pre><code class="language-php">// Core/Autoloader.php
 
@@ -32,7 +32,7 @@ class Autoloader
      * Require the file for the specific class
      * @param string $class Class name
      */
-    static function autoload(string $class): void
+    public static function autoload(string $class): void
     {
         // TODO: Implement autoloading
     }
@@ -40,7 +40,7 @@ class Autoloader
     /**
      * Register class autoloader
      */
-    static function register(): void
+    public static function register(): void
     {
         spl_autoload_register(array(__CLASS__, 'autoload'));
     }
@@ -54,7 +54,7 @@ class Autoloader
  * Require the file for the specific class
  * @param string $class Class name
  */
-static function autoload(string $class): void
+public static function autoload(string $class): void
 {
     $parts = explode("\\", $class);
     $filepath = __DIR__ . "/../" . implode(DIRECTORY_SEPARATOR, $parts) . ".php";

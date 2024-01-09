@@ -26,12 +26,12 @@ use Core\Autoloader;
 
 require_once "Core/Autoloader.php";
 
-define("CONTROLLER_NAMESPACE", "\App\Controller\\");
+const CONTROLLER_NAMESPACE = "\App\Controller\\";
 
 Autoloader::register();
 
 $dir = str_replace("\\", "/", __DIR__);
-$siteRoot = substr($dir, strlen($_SERVER["DOCUMENT_ROOT"]), strlen($dir)) . "/");
+$siteRoot = substr($dir, strlen($_SERVER["DOCUMENT_ROOT"]), strlen($dir)) . "/";
 $currentUrl = str_replace($siteRoot, "", $_SERVER["REQUEST_URI"]);
 $parts = explode("/", $currentUrl);</code></pre>
     </section>
@@ -55,7 +55,7 @@ $controller->$action();</code></pre>
     <section>
         <h3>Test des routes</h3>
         <p>Testez maintenant le fonctionnement des routes en créant un controller Test :</p>
-        <pre><code class="language-php">// Controller/TestController.php
+        <pre><code class="language-php">// App/Controller/TestController.php
 
 namespace App\Controller;
 
@@ -68,7 +68,7 @@ class TestController
     }
 
 }</code></pre>
-        <p>Essayez ensuite d'accéder à l'URL <a href="http://localhost/test/show">/test/show</a> dans votre navigateur.</p>
+        <p>Essayez ensuite d'accéder à l'URL <code>/test/show</code> dans votre navigateur.</p>
     </section>
 
 </section>

@@ -8,7 +8,7 @@
     <section>
         <h3>Création d'un template</h3>
         <p>Dans un premier temps, nous allons créer un fichier de template dans le dossier <strong>App/Views</strong> :</p>
-        <pre style="max-height: 500px;"><code class="language-php">&lt;!-- App/Views/default.php --&gt;
+        <pre style="max-height: 500px;"><code class="language-php">&lt;!-- App/Views/base.php --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html lang="fr"&gt;
 &lt;head&gt;
@@ -37,7 +37,7 @@
 
     <section>
         <h3>Core Controller</h3>
-        <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controlleurs :</p>
+        <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controllers :</p>
         <pre><code class="language-php">// Core/Controller/Controller.php
 
 namespace Core\Controller;
@@ -45,10 +45,10 @@ namespace Core\Controller;
 abstract class Controller
 {
 
-    protected $viewPath;
-    protected $template;
+    protected string $viewPath;
+    protected string $template;
 
-    protected function render($view, $variables = [])
+    protected function render($view, $variables = []): void
     {
         ob_start(); // Start buffering the output
         extract($variables); // Convert array to variables
@@ -62,7 +62,7 @@ abstract class Controller
 
     <section>
         <h3>App Controller</h3>
-        <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controlleurs mais cette fois-ci spécifiquement pour notre application :</p>
+        <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controllers mais cette fois-ci spécifiquement pour notre application :</p>
         <pre><code class="language-php">// App/Controller/AppController.php
 
 namespace App\Controller;
@@ -75,7 +75,7 @@ abstract class AppController extends Controller
     public function __construct()
     {
         $this->viewPath = __DIR__ . "/../Views/";
-        $this->template = "default";
+        $this->template = "base";
     }
 
 }</code></pre>
@@ -83,12 +83,12 @@ abstract class AppController extends Controller
 
     <section>
         <h3>Default Controller</h3>
-        <p>A présent, nous allons créer le controlleur qui sera chargé par défaut.</p>
+        <p>À présent, nous allons créer le controller qui sera chargé par défaut.</p>
         <p>Dans un premier temps, nous allons créer un template de page :</p>
         <pre><code class="language-php">&lt;!-- App/Views/default/index.php --&gt;
 &lt;h1&gt;Default page&lt;/h1&gt;
 <?= $username; ?></code></pre>
-        <p>Puis le controlleur correspondant :</p>
+        <p>Puis le controller correspondant :</p>
         <pre><code class="language-php">// App/Controller/DefaultController.php
 
 namespace App\Controller;
@@ -97,7 +97,8 @@ namespace App\Controller;
 class DefaultController extends AppController
 {
 
-    public function index() {
+    public function index(): void
+    {
         $this->render("default/index", ["username" => "johndoe"]);
     }
 

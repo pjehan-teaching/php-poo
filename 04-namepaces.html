@@ -75,7 +75,7 @@ echo $john;
             Ils permettent d'<strong>organiser</strong> des classes dans des packages comme on pourrait placer des fichiers
             dans des dossiers.
             Le mot clé <code class="hljs-keyword">namespace</code> permet de définir dans quel namespace déclarer les
-            classes qui suivront tandis que le mot clé <code class="hljs-keyword">use</code> permet d'importer les classes
+            classes tandis que le mot clé <code class="hljs-keyword">use</code> permet d'importer les classes
             d'un namespace.
         </p>
         <div class="container">
@@ -105,7 +105,7 @@ $person = new Personne();
         <p>
             Pour éviter d'avoir à inclure l'ensemble des fichiers contenant les classes utilisées, il est possible
             d'utiliser un système d'autoloading en utilisant la fonction <code>__autoload()</code>.
-            Cependant, cette fonction ne pouvant être appelée qu'une seule fois lors de l'éxécution de notre code, nous
+            Cependant, cette fonction ne pouvant être appelée qu'une seule fois lors de l'exécution de notre code, nous
             allons plutôt utiliser la fonction <code>spl_autoload_register()</code>.
         </p>
         <pre><code class="language-php">function myapp_autoloader($class_name)

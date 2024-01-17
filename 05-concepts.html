@@ -1,7 +1,7 @@
 <section id="concepts">
 
     <section>
-        <h2>Concepts OOP</h2>
+        <h2>Concepts POO</h2>
     </section>
 
     <section>
@@ -23,7 +23,7 @@
         <div class="container">
             <div class="col">
                 <p>
-                    Dans l'exemple ci-contre, la classe <code>Teacher</code> est une classe enfant de la classe mère <code>Person</code>.
+                    Dans l'exemple ci-contre, la classe <code>Teacher</code> est une classe enfant (ou dérivée) de la classe mère <code>Person</code>.
                     En effet, un professeur est une personne et un étudiant est également une personne.
                     Ces deux entités partagent donc des propriétés communes (nom, prénom...) et des méthodes communes
                     (getFullname(), getAge()...) mais sont différentes (un étudiant à des notes, mais pas un professeur).
@@ -38,7 +38,7 @@
     <section>
         <h3>Et concrètement ?</h3>
         <p>
-            On utilise le mot clé <code class="hljs-keyword">extends</code>
+            On utilise le mot clé <code class="language-php">extends</code>
         </p>
         <pre><code class="language-php">class Student extends Person
 {
@@ -100,6 +100,23 @@ echo $john->getFullname();
 $john = new Student("John", "Doe", [10, 5, 12]);
 echo $john->getAverage();
 </code></pre>
+    </section>
+
+    <section>
+        <h3>Le mot clé final</h3>
+        <p>
+            Le mot clé <code class="language-php">final</code> permet de définir une classe ou une méthode comme <strong>finale</strong>.
+            Une classe finale ne pourra <strong>pas être héritée</strong> et une méthode finale ne pourra <strong>pas être surchargée</strong>.
+        </p>
+        <pre><code class="language-php">final class Person
+{
+    [...]
+}
+
+class Student extends Person // Erreur !
+{
+    [...]
+}</code></pre>
     </section>
 
     <section>
@@ -392,6 +409,44 @@ $john = new Person("John", "Doe");
                 <img src="assets/images/uml_media_5.png" alt="UML">
             </div>
         </div>
+    </section>
+
+    <section>
+        <h3>Les énumérations</h3>
+        <p>Une énumération est une liste de valeurs nommées.</p>
+        <p>Depuis la version 8.1 de PHP, il est possible de définir des énumérations à l'aide du mot clé <code class="language-php">enum</code>.</p>
+        <pre><code class="language-php">enum HTTPMethods
+{
+    case GET;
+    case POST;
+    case PUT;
+    case DELETE;
+}
+</code></pre>
+        <p>Les énumérations peuvent être <strong>associées à des valeurs</strong> ce qui peut être pratique pour par exemple enregistrer des données en base de données.</p>
+    </section>
+
+    <section>
+        <h3>Les énumérations</h3>
+        <p>Les énumérations peuvent être utilisées comme des classes :</p>
+        <pre><code class="language-php">function handleRequest(HTTPMethods $method): void
+{
+    switch ($method) {
+        case HTTPMethods::GET:
+            // ...
+            break;
+        case HTTPMethods::POST:
+            // ...
+            break;
+        case HTTPMethods::PUT:
+            // ...
+            break;
+        case HTTPMethods::DELETE:
+            // ...
+            break;
+    }
+}
+</code></pre>
     </section>
 
     <section>

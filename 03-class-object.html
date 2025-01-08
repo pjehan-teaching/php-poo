@@ -141,6 +141,19 @@ echo $john->getFullname();
             Si <code class="hljs-keyword">$this</code> permet d'accéder à l'instance de l'objet en cours, le mot clé
             <code class="hljs-keyword">self</code> permet lui d'accéder à la classe.
         </p>
+        <pre><code class="language-php">class Person
+{
+    public static $count = 0; // Propriété statique
+
+    public function __construct()
+    {
+        self::$count++;
+    }
+}
+
+$john = new Person();
+$jane = new Person();
+echo Person::$count; // Afficher 2</code></pre>
     </section>
 
     <section>

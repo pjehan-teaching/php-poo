@@ -32,7 +32,7 @@ Autoloader::register();
 
 $dir = str_replace("\\", "/", __DIR__);
 $siteRoot = substr($dir, strlen($_SERVER["DOCUMENT_ROOT"]), strlen($dir)) . "/";
-$currentUrl = str_replace($siteRoot, "", $_SERVER["REQUEST_URI"]);
+$currentUrl = substr_replace($_SERVER["REQUEST_URI"], "", 0, strlen($siteRoot));
 $parts = explode("/", $currentUrl);</code></pre>
     </section>
 

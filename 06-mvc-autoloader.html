@@ -32,7 +32,7 @@ class Autoloader
      * Require the file for the specific class
      * @param string $class Class name
      */
-    public static function autoload(string $class): void
+    private static function autoload(string $class): void
     {
         // TODO: Implement autoloading
     }
@@ -42,7 +42,7 @@ class Autoloader
      */
     public static function register(): void
     {
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        spl_autoload_register([__CLASS__, 'autoload']);
     }
 }</code></pre>
     </section>
@@ -54,7 +54,7 @@ class Autoloader
  * Require the file for the specific class
  * @param string $class Class name
  */
-public static function autoload(string $class): void
+private static function autoload(string $class): void
 {
     $parts = explode("\\", $class);
     $filepath = __DIR__ . "/../" . implode(DIRECTORY_SEPARATOR, $parts) . ".php";

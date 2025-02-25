@@ -78,4 +78,61 @@ Autoloader::register();
 $test = new Test();</code></pre>
     </section>
 
+    <section>
+        <h3>Amélioration</h3>
+        <p>
+            Nous pouvons améliorer notre autoloader en ajoutant la possibilité de charger des classes PHP provenant
+            d'un autre dossier.
+        </p>
+        <p>
+            Pour cela, nous allons ajouter un tableau associatif qui contiendra des correspondances
+            namespace <-> répertoire :
+        </p>
+        <pre style="max-height: 30vh;"><code class="language-php">class Autoloader
+{
+
+    private static array $paths = [];
+
+    /**
+     * Require the file for the specific class
+     * @param string $class Class name
+     */
+    private static function autoload(string $class): void
+    {
+        $parts = explode("\\", $class);
+        $filepath = __DIR__ . "/../" . implode(DIRECTORY_SEPARATOR, $parts) . ".php";
+
+        if (!file_exists($filepath)) {
+            array_shift($parts);
+            foreach (self::$paths as $namespace => $path) {
+                $filepath = $path . "/" . implode(DIRECTORY_SEPARATOR, $parts) . ".php";
+                if (file_exists($filepath)) {
+                    break;
+                }
+            }
+        }
+
+        require_once $filepath;
+    }
+
+    /**
+     * Register class autoloader
+     */
+    public static function register(): void
+    {
+        spl_autoload_register([__CLASS__, 'autoload']);
+    }
+
+    public static function addPath(string $namespace, string $path): void
+    {
+        self::$paths[$namespace] = $path;
+    }
+
+}</code></pre>
+        <p>
+            Cela permettrait par exemple d'ajouter un namespace <code>App</code> associé à un dossier <code>src</code> :
+        </p>
+        <pre><code class="language-php">Autoloader::addPath("App", __DIR__ . "/src");</code></pre>
+    </section>
+
 </section>

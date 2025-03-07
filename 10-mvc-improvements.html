@@ -11,6 +11,7 @@
             <ol>
                 <li>Définir un nom de table par défaut à partir du nom de l'entité dans la classe <code class="language-php">Entity</code></li>
                 <li>Ajouter une méthode <code class="language-php">getOne()</code> dans la classe <code class="language-php">Entity</code></li>
+                <li>Améliorer la méthode <code class="language-php">getAll()</code> afin de pouvoir filtrer les données, les trier et limiter le nombre de résultats</li>
                 <li>Modifier le code existant pour permettre d'exécuter des requêtes de type INSERT, UPDATE ou DELETE</li>
             </ol>
         </div>
@@ -20,12 +21,25 @@
         <h3>Amélioration des controllers</h3>
         <div class="instructions">
             <ol>
-                <li>Créer une classe Request permettant de gérer les données de $_POST et $_GET</li>
-                <li>Créer une classe Response permettant de gérer les réponses HTTP (200, 404...)</li>
+                <li>Personnaliser le message d'erreur lorsque la vue appelée par la méthode <code>render</code> n'existe pas</li>
+                <li>
+                    Créer une classe Request permettant de gérer les données de $_POST et $_GET et injecter cette classe
+                    lors de l'appel d'une méthode d'un controller.
+                </li>
+                <li>
+                    Créer une classe Response permettant de gérer les réponses HTTP (200, 404...).
+                    Les controllers devront donc retourner un objet Response et le front controller se chargera de
+                    retourner le contenu de l'objet.
+                </li>
                 <li>Créer une classe Session permettant de gérer les données de $_SESSION</li>
                 <li>Créer une classe FlashMessage permettant de gérer les messages flash</li>
             </ol>
         </div>
+        <footer>
+            <a href="https://www.php-fig.org/psr/psr-7/" class="info" target="_blank">
+                Les classes Request et Response pourraient être basées sur les interfaces du PSR-7
+            </a>
+        </footer>
     </section>
 
 </section>

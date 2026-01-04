@@ -7,8 +7,8 @@
 
     <section>
         <h3>Création d'un template</h3>
-        <p>Dans un premier temps, nous allons créer un fichier de template dans le dossier <strong>App/Views</strong> :</p>
-        <pre style="max-height: 500px;"><code class="language-php">&lt;!-- App/Views/base.php --&gt;
+        <p>Dans un premier temps, nous allons créer un fichier de template dans le dossier <strong>src/Views</strong> :</p>
+        <pre style="max-height: 500px;"><code class="language-php">&lt;!-- src/Views/base.php --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html lang="fr"&gt;
 &lt;head&gt;
@@ -36,15 +36,13 @@
     </section>
 
     <section>
-        <h3>Core Controller</h3>
+        <h3>Base Controller</h3>
         <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controllers :</p>
-        <pre><code class="language-php">// Core/Controller/Controller.php
-
-namespace Core\Controller;
+        <pre><code class="language-php">// vendor/MyCompany/Controller/Controller.php
+namespace MyCompany\Controller;
 
 abstract class Controller
 {
-
     protected string $viewPath;
     protected string $template;
 
@@ -56,53 +54,57 @@ abstract class Controller
         $content = ob_get_clean(); // Store the output in a variable
         require($this->viewPath . $this->template . '.php');
     }
-
 }</code></pre>
     </section>
 
     <section>
         <h3>App Controller</h3>
         <p>Nous allons maintenant créer une classe PHP qui nous servira de base à nos controllers mais cette fois-ci spécifiquement pour notre application :</p>
-        <pre><code class="language-php">// App/Controller/AppController.php
-
+        <pre><code class="language-php">// src/Controller/AppController.php
 namespace App\Controller;
 
-use Core\Controller\Controller;
+use MyCompany\Controller\Controller;
 
 abstract class AppController extends Controller
 {
-
     public function __construct()
     {
         $this->viewPath = __DIR__ . "/../Views/";
         $this->template = "base";
     }
-
 }</code></pre>
     </section>
 
     <section>
-        <h3>Default Controller</h3>
-        <p>À présent, nous allons créer le controller qui sera chargé par défaut.</p>
+        <h3>HomeController</h3>
+        <p>À présent, nous allons modifier le controller <code class="language-php">HomeController</code>.</p>
         <p>Dans un premier temps, nous allons créer un template de page :</p>
-        <pre><code class="language-php">&lt;!-- App/Views/default/index.php --&gt;
-&lt;h1&gt;Default page&lt;/h1&gt;
-<?= $username; ?></code></pre>
-        <p>Puis le controller correspondant :</p>
-        <pre><code class="language-php">// App/Controller/DefaultController.php
-
+        <pre><code class="language-php">&lt;!-- src/Views/home/index.php --&gt;
+&lt;?php
+// Déclaration des variables pour la vue
+/** @var $username string */
+?&gt;
+&lt;h1&gt;Homepage&lt;/h1&gt;
+&lt;?= $username; ?&gt;</code></pre>
+        <p>Puis dans le controller <code class="language-php">HomeController</code> :</p>
+        <pre><code class="language-php">// src/Controller/HomeController.php
 namespace App\Controller;
 
-
-class DefaultController extends AppController
+class HomeController extends AppController
 {
-
     public function index(): void
     {
-        $this->render("default/index", ["username" => "johndoe"]);
+        $this->render("home/index", ["username" => "johndoe"]);
     }
-
 }</code></pre>
+    </section>
+
+    <section>
+        <h3>MVC</h3>
+        <p>
+            Cette étape nous permet d'<strong>améliorer notre architecture MVC</strong> en <strong>séparant</strong> clairement
+            la logique de l'application (controllers) de la présentation (vues) tout en utilisant un template commun pour l'ensemble des pages.
+        </p>
     </section>
 
 </section>

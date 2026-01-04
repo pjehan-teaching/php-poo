@@ -2,73 +2,197 @@
 
     <section>
         <h2>Construire une architecture MVC</h2>
-        <h3>Réécriture d'URL</h3>
+        <h3>Router</h3>
+    </section>
+
+    <section>
+        <h3>Introduction au routing</h3>
+        <p>Le routing (ou routage) est un mécanisme qui permet de faire le lien entre une URL et une action dans notre application.</p>
+        <p>
+            Par exemple, l'URL <code class="language-php">/test/show</code> pourrait être mappée à la méthode <code class="language-php">show()</code>
+            du controller <code class="language-php">TestController</code>.
+        </p>
+        <p>Nous allons maintenant implémenter un routeur simple pour notre application MVC.</p>
+    </section>
+
+    <section>
+        <h3>Classe Route</h3>
+        <p>
+            Nous allons dans un premier temps créer une classe <code class="language-php">Route</code> qui va nous permettre de représenter une route
+            dans notre application.
+        </p>
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Router/Route.php
+namespace MyCompany\Router;
+
+class Route
+{
+    private string $path;
+    private string $controller;
+    private string $method;
+    private string $httpMethod;
+
+    public function __construct(
+        string $path,
+        string $controller,
+        string $method,
+        string $httpMethod = 'GET'
+    ) {
+        $this->path = $path;
+        $this->controller = $controller;
+        $this->method = $method;
+        $this->httpMethod = strtoupper($httpMethod);
+    }
+
+    public function matches(string $uri, string $httpMethod): bool
+    {
+        return $this->path === $uri && $this->httpMethod === $httpMethod;
+    }
+
+    public function getController(): string
+    {
+        return $this->controller;
+    }
+
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Router</h3>
+        <p>Nous allons maintenant créer une classe <code class="language-php">Router</code> qui va nous permettre de gérer les routes de notre application :</p>
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Router/Router.php
+namespace MyCompany\Router;
+
+class Router
+{
+    /** @var Route[] */
+    private array $routes = [];
+
+    public function get(string $path, string $controller, string $method): void
+    {
+        $this->addRoute(new Route($path, $controller, $method, 'GET'));
+    }
+
+    public function post(string $path, string $controller, string $method): void
+    {
+        $this->addRoute(new Route($path, $controller, $method, 'POST'));
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Router</h3>
+        <p>
+            Nous allons maintenant ajouter une méthode <code class="language-php">callController()</code> qui va nous permettre d'appeler le controller
+            et la méthode correspondante en fonction de l'URL en cours.
+        </p>
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Router/Router.php
+private function addRoute(Route $route): void
+{
+    $controllerName = $route->getController();
+    $methodName = $route->getMethod();
+
+    if (!class_exists($controllerName)) {
+        throw new \Exception("Le contrôleur $controllerName n'existe pas");
+    }
+
+    $controller = new $controllerName();
+
+    if (!method_exists($controller, $methodName)) {
+        throw new \Exception("La méthode $methodName n'existe pas");
+    }
+
+    $controller->$methodName();
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Classe Router</h3>
+        <p>
+            Enfin, nous allons ajouter une méthode <code class="language-php">dispatch()</code> qui va nous permettre de dispatcher la requête
+            en fonction de l'URL en cours.
+        </p>
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Router/Router.php
+public function dispatch(string $uri, string $httpMethod): void
+{
+    foreach ($this->routes as $route) {
+        if ($route->matches($uri, $httpMethod)) {
+            $this->callController($route);
+            return;
+        }
+    }
+}</code></pre>
     </section>
 
     <section>
         <h3>Le fichier .htaccess</h3>
         <p>Sur les serveurs Apache, il est possible d'effectuer des redirections en utilisant les fichiers <strong>.htaccess</strong>.</p>
         <p>Créez un fichier .htaccess à la racine du projet avec les lignes suivantes :</p>
-        <pre><code class="language-apacheconf">RewriteEngine On
-RewriteCond /var/www/%{REQUEST_FILENAME} !-f
-RewriteCond /var/www/%{REQUEST_FILENAME} !-d
-RewriteRule (.*) index.php</code></pre>
+        <pre><code class="language-apacheconf"># Activer le moteur de réécriture
+RewriteEngine On
+# Si le fichier n'existe pas
+RewriteCond %{REQUEST_FILENAME} !-f
+# Si le répertoire n'existe pas
+RewriteCond %{REQUEST_FILENAME} !-d
+# Rediriger vers index.php
+RewriteRule ^(.*)$ index.php [QSA,L]</code></pre>
         <p>Cela permet de rediriger toutes les requêtes vers le fichier index.php.</p>
+        <p>
+            Le fait de rediriger toutes les requêtes vers le fichier index.php s'appelle le <strong>Front Controller Pattern</strong>.
+        </p>
     </section>
 
     <section>
-        <h3>Gestion des routes</h3>
-        <p>Maintenant, nous allons pouvoir créer notre routeur et rediriger les requêtes vers les actions correspondantes.</p>
-        <p>Pour cela, nous allons dans un premier temps stocker le namespace de nos controllers dans une constante puis récupérer les différentes parties qui composent l'URL en cours :</p>
-        <pre><code class="language-php">// index.php
+        <h3>Création d'un controller</h3>
+        <p>
+            Nous allons maintenant créer un controller <code class="language-php">HomeController</code> avec une méthode
+            <code class="language-php">index()</code> qui sera appelée lorsque l'utilisateur accède à la racine du site (<code class="language-php">/</code>).
+        </p>
+        <pre style="max-height: 50vh;"><code class="language-php">// src/Controller/HomeController.php
+namespace MyCompany\Controller;
 
-use Core\Autoloader;
-
-require_once "Core/Autoloader.php";
-
-const CONTROLLER_NAMESPACE = "\App\Controller\\";
-
-Autoloader::register();
-
-$dir = str_replace("\\", "/", __DIR__);
-$siteRoot = substr($dir, strlen($_SERVER["DOCUMENT_ROOT"]), strlen($dir)) . "/";
-$currentUrl = substr_replace($_SERVER["REQUEST_URI"], "", 0, strlen($siteRoot));
-$parts = explode("/", $currentUrl);</code></pre>
-    </section>
-
-    <section>
-        <h3>Gestion des routes</h3>
-        <p>Nous pouvons maintenant charger la bonne action en fonction de l'URL en cours :</p>
-        <pre><code class="language-php">$controller = CONTROLLER_NAMESPACE . "DefaultController"; // Default controller
-$action = "index"; // Default action
-if ($parts[0]) {
-    $controller = CONTROLLER_NAMESPACE . ucfirst($parts[0]) . "Controller";
-    if (isset($parts[1])) {
-        $action = $parts[1];
+class HomeController
+{
+    public function index(): void
+    {
+        echo "&lt;h1&gt;Page d'accueil&lt;/h1&gt;";
     }
-}
 
-$controller = new $controller();
-$controller->$action();</code></pre>
+    public function about(): void
+    {
+        echo "&lt;h1&gt;À propos&lt;/h1&gt;";
+    }
+}</code></pre>
     </section>
 
     <section>
         <h3>Test des routes</h3>
-        <p>Testez maintenant le fonctionnement des routes en créant un controller Test :</p>
-        <pre><code class="language-php">// App/Controller/TestController.php
+        <p>Nous pouvons maintenant tester notre routeur en ajoutant des routes et en dispatchant la requête en cours :</p>
+        <pre style="max-height: 50vh;"><code class="language-php">// index.php
+use App\Controller\HomeController;
+use MyCompany\Framework\Autoloader;
+use MyCompany\Framework\Router\Router;
 
-namespace App\Controller;
+require_once "vendor/MyCompany/Framework/Autoloader.php";
 
+Autoloader::addPath("App", __DIR__ . "/src");
+Autoloader::register();
 
-class TestController
-{
+$router = new Router();
 
-    public function show() {
-        echo "test controller";
-    }
+// Définir les routes
+$router->get("/", HomeController::class, "index");
+$router->get("/about", HomeController::class, "about");
 
-}</code></pre>
-        <p>Essayez ensuite d'accéder à l'URL <code>/test/show</code> dans votre navigateur.</p>
+// Récupération de l'URI et de la méthode HTTP
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+
+// Dispatch
+$router->dispatch($uri, $httpMethod);</code></pre>
     </section>
 
 </section>

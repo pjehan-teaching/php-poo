@@ -9,8 +9,8 @@
         <h3>Classe Database</h3>
         <p>Pour gérer notre base de données, nous allons utiliser une classe Database.</p>
         <p>Dans un premier temps, nous allons définir des propriétés que nous utiliserons ensuite dans la chaîne de connexion à la base de données :</p>
-        <pre style="max-height: 450px;"><code class="language-php">// Core/Database/Database.php
-namespace Core\Database;
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Database/Database.php
+namespace MyCompany\Database;
 
 class Database
 {
@@ -32,8 +32,8 @@ class Database
     <section>
         <h3>Classe Database</h3>
         <p>Nous allons maintenant ajouter une propriété <code class="language-php">$pdo</code> ainsi qu'une méthode <code class="language-php">getPDO()</code> :</p>
-        <pre style="max-height: 500px;"><code class="language-php">// Core/Database/Database.php
-namespace Core\Database;
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Database/Database.php
+namespace MyCompany\Database;
 
 use PDO;
 
@@ -58,8 +58,8 @@ class Database
     <section>
         <h3>Classe Database</h3>
         <p>Enfin, nous allons ajouter une méthode <code class="language-php">query()</code> qui nous permettra d'exécuter des requêtes SQL :</p>
-        <pre style="max-height: 500px;"><code class="language-php">// Core/Database/Database.php
-namespace Core\Database;
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Database/Database.php
+namespace MyCompany\Database;
 
 class Database
 {
@@ -80,10 +80,10 @@ class Database
     <section>
         <h3>Classe Database</h3>
         <p>À présent, nous allons rendre cette classe accessible depuis nos controllers en ajoutant une propriété dans la classe Controller :</p>
-        <pre><code class="language-php">// Core/Controller/Controller.php
-namespace Core\Controller;
+        <pre><code class="language-php">// vendor/MyCompany/Controller/Controller.php
+namespace MyCompany\Controller;
 
-use Core\Database\Database;
+use MyCompany\Database\Database;
 
 abstract class Controller
 {
@@ -103,36 +103,75 @@ abstract class Controller
 
     <section>
         <h3>Classe Database</h3>
-        <p>Puis, nous allons passer une instance de Database aux controllers de notre application :</p>
+        <p>Puis, nous allons passer une instance de Database aux controllers de notre application via le routeur :</p>
         <pre><code class="language-php">// index.php
-use Core\Autoloader;
-use Core\Database\Database;
+use App\Controller\HomeController;
+use MyCompany\Framework\Autoloader;
+use MyCompany\Framework\Database\Database;
+use MyCompany\Framework\Router\Router;
 
 [...]
 
-$controller = new $controller();
-$controller->setDatabase(new Database("mydb"));
-$controller->$action();</code></pre>
+$router = new Router(new Database("mydb"));</code></pre>
+    <p>
+        Pour que cela fonctionne, nous devons modifier la classe <code class="language-php">Router</code>
+        afin de passer l'instance de Database lors de l'appel du controller.
+    </p>
+    </section>
+
+    <section>
+        <h3>Modification de la classe Router</h3>
+        <p>
+            Nous allons ajouter une propriété <code class="language-php">$database</code> dans la classe <code class="language-php">Router</code>
+            et passer cette instance de Database lors de l'appel du controller.
+        </p>
+        <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Router/Router.php
+namespace MyCompany\Router;
+
+use MyCompany\Database\Database;
+
+class Router
+{
+    private Database $database;
+
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+    }
+
+    [...]
+
+    private function callController(Route $route): void
+    {
+        [...]
+
+        $controller = new $controllerName();
+        $controller->setDatabase($this->database);
+
+        [...]
+    }
+}</code></pre>
     </section>
 
     <section>
         <h3>Classe Database</h3>
         <p>Nous allons maintenant pouvoir utiliser la base de données depuis un controller :</p>
-        <pre><code class="language-php">// App/Controller/DefaultController.php
+        <pre><code class="language-php">// src/Controller/HomeController.php
 public function index() {
     $entites = $this->getDatabase()->query("SELECT * FROM mytable");
-    $this->render("default/index", ["username" => "johndoe", "entites" => $entites]);
+    $this->render("home/index", ["username" => "johndoe", "entites" => $entites]);
 }</code></pre>
     </section>
 
     <section>
         <h3>Gestion des entités</h3>
-        <p>Maintenant, nous allons améliorer notre architecture en introduisant la notion d'entité. Une entité sera une classe PHP représentant une table de notre base de données.</p>
+        <p>
+            Maintenant, nous allons améliorer notre architecture en introduisant la notion d'entité.
+            Une entité sera une classe PHP représentant une table de notre base de données.
+        </p>
         <p>Nous allons commencer par créer une classe abstraite <code class="language-php">Entity</code> :</p>
-        <pre style="max-height: 400px;"><code class="language-php">// Core/Entity/Entity.php
-namespace Core\Entity;
-
-use Core\Database\Database;
+        <pre style="max-height: 400px;"><code class="language-php">// vendor/MyCompany/Database/Entity.php
+namespace MyCompany\Database;
 
 abstract class Entity
 {
@@ -148,7 +187,6 @@ abstract class Entity
     {
         return $this->database->query("SELECT * FROM " . $this->table, static::class);
     }
-
 }</code></pre>
         <footer>
             <a href="#" class="info">static::class retournera le nom de la classe enfant</a>
@@ -158,10 +196,10 @@ abstract class Entity
     <section>
         <h3>Gestion des entités</h3>
         <p>Maintenant, nous allons ajouter une méthode <code class="language-php">getEntity()</code> dans notre classe <code class="language-php">Database</code> :</p>
-        <pre><code class="language-php">// Core/Database/Database.php
-namespace Core\Database;
+        <pre><code class="language-php">// vendor/MyCompany/Database/Database.php
+namespace MyCompany\Database;
 
-use Core\Entity\Entity;
+use MyCompany\Database\Entity;
 use PDO;
 
 class Database
@@ -178,12 +216,12 @@ class Database
     <section>
         <h3>Gestion des entités</h3>
         <p>À présent, nous allons créer une nouvelle classe dans notre application pour gérer les données d'une table de la base de données :</p>
-        <pre><code class="language-php">// App/Entity/MyTable.php
+        <pre><code class="language-php">// src/Entity/MyTable.php
 
 namespace App\Entity;
 
-use Core\Database\Database;
-use Core\Entity\Entity;
+use MyCompany\Database\Database;
+use MyCompany\Database\Entity;
 
 class MyTable extends Entity
 {
@@ -200,12 +238,12 @@ class MyTable extends Entity
     <section>
         <h3>Gestion des entités</h3>
         <p>Enfin, nous allons maintenant pouvoir rechercher la liste des données de la table de la manière suivante :</p>
-        <pre><code class="language-php">// App/Controller/DefaultController.php
-class DefaultController extends AppController
+        <pre><code class="language-php">// src/Controller/HomeController.php
+class HomeController extends AppController
 {
     public function index() {
         $entities = $this->getDatabase()->getEntity(MyTable::class)->getAll();
-        $this->render("default/index", ["username" => "johndoe", "entities" => $entities]);
+        $this->render("home/index", ["username" => "johndoe", "entities" => $entities]);
     }
 }</code></pre>
     </section>
@@ -213,42 +251,39 @@ class DefaultController extends AppController
     <section>
         <h3>Gestion des associations</h3>
         <p>Pour gérer les associations entre les tables, nous pouvons modifier nos entités pour ajouter de nouvelles méthodes :</p>
-        <pre><code class="language-php">// App/Entity/MyTable.php
+        <pre><code class="language-php">// src/Entity/MyTable.php
 
 namespace App\Entity;
 
-use Core\Database\Database;
-use Core\Entity\Entity;
+use MyCompany\Database\Database;
+use MyCompany\Database\Entity;
 
 class MyTable extends Entity
 {
-
     public function getOthertable(): array {
-        return $this->database->query("SELECT * FROM othertable WHERE mytable_id = " . $this->id, "\App\Entity\OtherTable");
+        return $this->database->query("SELECT * FROM othertable WHERE mytable_id = " . $this->id, OtherTable::class);
     }
-
 }</code></pre>
     </section>
 
     <section>
         <h3>Gestion des associations</h3>
         <p>Nous pouvons maintenant accéder aux données depuis nos vues :</p>
-        <pre><code class="language-php">&lt;!-- App/Views/default/index.php --&gt;
-<?php $entity->getOthertable(); ?></code></pre>
+        <pre><code class="language-php">&lt;!-- src/Views/home/index.php --&gt;
+&lt;?php $entity->getOthertable(); ?&gt;</code></pre>
         <p>Cependant, il pourrait être pratique de pouvoir accéder à ces données en utilisant la syntaxe suivante :</p>
-        <pre><code class="language-php">&lt;!-- App/Views/default/index.php --&gt;
-<?php $entity->othertable; ?></code></pre>
+        <pre><code class="language-php">&lt;!-- src/Views/home/index.php --&gt;
+&lt;?php $entity->othertable; ?&gt;</code></pre>
     </section>
 
     <section>
         <h3>Gestion des associations</h3>
         <p>Pour cela, nous allons utiliser la méthode magique <code class="language-php">__get</code> dans notre classe <code class="language-php">Entity</code> :</p>
-        <pre><code class="language-php">// Core/Entity/Entity.php
-namespace Core\Entity;
+        <pre><code class="language-php">// vendor/MyCompany/Database/Entity.php
+namespace MyCompany\Database;
 
 abstract class Entity
 {
-
     [...]
 
     public function __get($key)
@@ -257,7 +292,6 @@ abstract class Entity
         $this->$key = $this->$method();
         return $this->$key;
     }
-
 }</code></pre>
         <footer>
             <a href="#" class="warning">Attention à ne pas abuser des méthodes magiques !</a>

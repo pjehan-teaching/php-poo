@@ -9,14 +9,10 @@
         <h3>Mise en place de l'autoloader</h3>
         <p>Nous allons commencer par mettre en place un autoloader.</p>
         <p>Pour cela, nous allons créer une classe <code class="language-php">Autoloader</code> :</p>
-        <pre><code class="language-php">// Core/Autoloader.php
+        <pre><code class="language-php">// vendor/MyCompany/Autoloader.php
 
-namespace Core;
+namespace MyCompany;
 
-/**
- * Class Autoloader
- * @package Core
- */
 class Autoloader
 {
 
@@ -68,10 +64,10 @@ private static function autoload(string $class): void
         <p>Nous pouvons maintenant tester notre autoloader en créant une nouvelle classe <code class="language-php">Test</code> dans le dossier Core et en essayant de l'appeler depuis le fichier index.php :</p>
         <pre><code class="language-php">// index.php
 
-use Core\Autoloader;
-use Core\Test;
+use MyCompany\Autoloader;
+use MyCompany\Test;
 
-require_once "Core/Autoloader.php";
+require_once "vendor/MyCompany/Autoloader.php";
 
 Autoloader::register();
 

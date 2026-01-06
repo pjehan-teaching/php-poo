@@ -46,7 +46,7 @@ abstract class Controller
     protected string $viewPath;
     protected string $template;
 
-    protected function render($view, $variables = []): void
+    protected function render(string $view, array $variables = []): void
     {
         ob_start(); // Start buffering the output
         extract($variables); // Convert array to variables

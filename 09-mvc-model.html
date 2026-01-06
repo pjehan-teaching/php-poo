@@ -63,7 +63,7 @@ namespace MyCompany\Database;
 
 class Database
 {
-    public function query(string $query, string $classname = null): array
+    public function query(string $query, ?string $classname = null): array
     {
         $stmt = $this->getPDO()->query($query);
         if ($classname === null) {
@@ -286,11 +286,10 @@ abstract class Entity
 {
     [...]
 
-    public function __get($key)
+    public function __get(string $key)
     {
         $method = 'get' . ucfirst($key);
-        $this->$key = $this->$method();
-        return $this->$key;
+        return $this->$method();
     }
 }</code></pre>
         <footer>

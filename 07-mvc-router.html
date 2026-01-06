@@ -71,6 +71,11 @@ class Router
     /** @var Route[] */
     private array $routes = [];
 
+    public function addRoute(Route $route): void
+    {
+        $this->routes[] = $route;
+    }
+
     public function get(string $path, string $controller, string $method): void
     {
         $this->addRoute(new Route($path, $controller, $method, 'GET'));
@@ -90,7 +95,7 @@ class Router
             et la méthode correspondante en fonction de l'URL en cours.
         </p>
         <pre style="max-height: 50vh;"><code class="language-php">// vendor/MyCompany/Router/Router.php
-private function addRoute(Route $route): void
+private function callController(Route $route): void
 {
     $controllerName = $route->getController();
     $methodName = $route->getMethod();
